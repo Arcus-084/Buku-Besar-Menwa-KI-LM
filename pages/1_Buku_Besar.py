@@ -32,7 +32,6 @@ st.write("---")
 if st.button("⬅️ Kembali ke Menu Utama"):
     st.switch_page("main_base_apps.py")
 # Baru masukkan kode isi halaman kamu di bawah sini
-st.title("📊 Administrasi Buku Besar")
 st.write(f"Operator Aktif: NBP {st.session_state.user_nbp}")
 # Inisialisasi status aplikasi (Splash Screen & Navigasi)
 if 'auth' not in st.session_state:

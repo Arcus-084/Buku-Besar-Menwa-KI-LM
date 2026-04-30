@@ -7,16 +7,23 @@ url = st.secrets["SUPABASE_URL"]
 key = st.secrets["SUPABASE_KEY"]
 supabase: Client = create_client(url, key)
 
-# Sembunyikan Header, Footer (Created by), dan Menu Streamlit
+# Sembunyikan semua elemen branding Streamlit
 hide_st_style = """
             <style>
             #MainMenu {visibility: hidden;}
-            footer {visibility: hidden;}
-            header {visibility: hidden;}
-            /* Sembunyikan container footer secara total */
-            .st-emotion-cache-1647ite {display: none;} 
-            /* Sembunyikan tombol toolbar di pojok kanan bawah */
-            div[data-testid="stStatusWidget"] {display: none;}
+            footer {visibility: hidden !important;}
+            header {visibility: hidden !important;}
+            
+            /* Menyembunyikan seluruh baris footer di mobile */
+            div[data-testid="stFooter"] {display: none !important;}
+            
+            /* Menyembunyikan icon profil dan status di pojok kanan bawah */
+            div[data-testid="stStatusWidget"] {display: none !important;}
+            
+            /* Menghapus spasi kosong di bawah setelah footer disembunyikan */
+            .stApp {
+                margin-bottom: -2rem !important;
+            }
             </style>
             """
 st.markdown(hide_st_style, unsafe_allow_html=True)

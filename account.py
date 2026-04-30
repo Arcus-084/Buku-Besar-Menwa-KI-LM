@@ -44,7 +44,7 @@ if not st.session_state.auth:
     
     with col_logo2:
         # GANTI URL INI dengan link logo MENWA KI LM kamu
-        logo_url = "https://ygkqeydetmlsgwmdglyk.supabase.co/storage/v1/object/public/Logo%20Orgnisasi/MENWA_KI_LM__1__page-0001-removebg-preview.png" 
+        logo_url = "https://ygkqeydetmlsgwmdglyk.supabase.co/storage/v1/object/public/Logo%20Orgnisasi/MENWA_KI_LM__1__page-0001-removebg-preview%20(1).png" 
         st.image(logo_url, use_container_width=True)
         st.markdown("<h2 style='text-align: center;'>Buku Besar Digital</h2>", unsafe_allow_html=True)
         st.markdown("<p style='text-align: center;'>Resimen Mahasiswa Kompi Latifah Mubarokiyah</p>", unsafe_allow_html=True)
@@ -58,7 +58,7 @@ else:
     # Header: Logo pindah ke pojok kiri atas
     head_1, head_2 = st.columns([1, 6])
     with head_1:
-        st.image("https://ygkqeydetmlsgwmdglyk.supabase.co/storage/v1/object/public/Logo%20Orgnisasi/MENWA_KI_LM__1__page-0001-removebg-preview.png", width=80)
+        st.image("https://ygkqeydetmlsgwmdglyk.supabase.co/storage/v1/object/public/Logo%20Orgnisasi/MENWA_KI_LM__1__page-0001-removebg-preview%20(1).png", width=80)
     with head_2:
         st.subheader("MENWA Mahawarman KI LM")
 

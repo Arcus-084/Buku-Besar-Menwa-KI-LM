@@ -7,6 +7,9 @@ url = st.secrets["SUPABASE_URL"]
 key = st.secrets["SUPABASE_KEY"]
 supabase: Client = create_client(url, key)
 
+# --- KONFIGURASI HALAMAN ---
+st.set_page_config(page_title="Buku Besar MENWA KI LM", layout="centered")
+
 # Sembunyikan semua elemen branding Streamlit
 hide_st_style = """
             <style>
@@ -27,8 +30,6 @@ hide_st_style = """
             </style>
             """
 st.markdown(hide_st_style, unsafe_allow_html=True)
-# --- KONFIGURASI HALAMAN ---
-st.set_page_config(page_title="Buku Besar MENWA KI LM", layout="centered")
 
 # Inisialisasi status aplikasi (Splash Screen & Navigasi)
 if 'auth' not in st.session_state:

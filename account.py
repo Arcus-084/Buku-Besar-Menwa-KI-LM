@@ -44,7 +44,7 @@ if not st.session_state.auth:
     
     with col_logo2:
         # GANTI URL INI dengan link logo MENWA KI LM kamu
-        logo_url = "https://placeholder.com/wp-content/uploads/2018/10/placeholder.com-logo3.png" 
+        logo_url = "https://ygkqeydetmlsgwmdglyk.supabase.co/storage/v1/object/public/Logo%20Orgnisasi/MENWA_KI_LM__1__page-0001-removebg-preview.png" 
         st.image(logo_url, use_container_width=True)
         st.markdown("<h2 style='text-align: center;'>Buku Besar Digital</h2>", unsafe_allow_html=True)
         st.markdown("<p style='text-align: center;'>Resimen Mahasiswa Kompi Latifah Mubarokiyah</p>", unsafe_allow_html=True)

@@ -7,18 +7,19 @@ url = st.secrets["SUPABASE_URL"]
 key = st.secrets["SUPABASE_KEY"]
 supabase: Client = create_client(url, key)
 
-st.markdown(
-    """
-    <style>
-    #MainMenu {visibility: hidden;}
-    footer {visibility: hidden;}
-    header {visibility: hidden;}
-    /* Ini untuk menyembunyikan toolbar di pojok kanan bawah */
-    div[data-testid="stStatusWidget"] {display: none;}
-    </style>
-    """,
-    unsafe_allow_html=True
-)
+# Sembunyikan Header, Footer (Created by), dan Menu Streamlit
+hide_st_style = """
+            <style>
+            #MainMenu {visibility: hidden;}
+            footer {visibility: hidden;}
+            header {visibility: hidden;}
+            /* Sembunyikan container footer secara total */
+            .st-emotion-cache-1647ite {display: none;} 
+            /* Sembunyikan tombol toolbar di pojok kanan bawah */
+            div[data-testid="stStatusWidget"] {display: none;}
+            </style>
+            """
+st.markdown(hide_st_style, unsafe_allow_html=True)
 # --- KONFIGURASI HALAMAN ---
 st.set_page_config(page_title="Buku Besar MENWA KI LM", layout="centered")
 

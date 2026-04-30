@@ -15,7 +15,19 @@ if "authenticated" not in st.session_state or not st.session_state.authenticated
         st.switch_page("main_base_apps.py")
     st.stop() # Menghentikan sisa kode di bawah agar tidak jalan
 # -------------------
-
+# --- KODE PAKSA HAPUS SIDEBAR ---
+st.markdown("""
+    <style>
+        /* Menghilangkan navigasi di sidebar */
+        [data-testid="stSidebarNav"] {display: none !important;}
+        
+        /* Menghilangkan garis pembatas sidebar (opsional) */
+        [data-testid="stSidebar"] {display: none !important;}
+        
+        /* Menyesuaikan lebar halaman agar tetap di tengah */
+        .main .block-container {max-width: 800px; padding-top: 2rem;}
+    </style>
+""", unsafe_allow_html=True)
 # Baru masukkan kode isi halaman kamu di bawah sini
 st.title("📊 Administrasi Buku Besar")
 st.write(f"Operator Aktif: NBP {st.session_state.user_nbp}")

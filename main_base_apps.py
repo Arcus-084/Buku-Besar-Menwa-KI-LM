@@ -1,4 +1,19 @@
 import streamlit as st
+from supabase import create_client, Client
+
+# 1. Konfigurasi Halaman (Wajib Paling Atas)
+st.set_page_config(page_title="Dashboard MENWA KI LM", layout="centered")
+
+# 2. Inisialisasi Status Login (Session State)
+if "authenticated" not in st.session_state:
+    st.session_state.authenticated = False
+if "user_email" not in st.session_state:
+    st.session_state.user_email = None
+
+# 3. Koneksi Supabase
+url = st.secrets["SUPABASE_URL"]
+key = st.secrets["SUPABASE_KEY"]
+supabase: Client = create_client(url, key)
 
 st.set_page_config(page_title="Dashboard MENWA KI LM", layout="centered")
 

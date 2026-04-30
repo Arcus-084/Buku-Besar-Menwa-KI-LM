@@ -26,7 +26,7 @@ def upload_image(file):
     return supabase.storage.from_("kuitansi_organisasi").get_public_url(file_path)
 
 # --- TAMPILAN APLIKASI ---
-st.title("Sistem Buku Besar Organisasi")
+st.title("Buku Besar MENWA KI LM")
 
 accounts_data = get_accounts()
 if not accounts_data:

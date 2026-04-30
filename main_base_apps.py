@@ -35,3 +35,5 @@ with st.form("login_form"):
             st.session_state.user_email = nra # Simpan NRA-nya saja untuk identitas
             st.success(f"Selamat bertugas, {nra}!")
             st.rerun()
+        else:
+            st.error("Email atau Password salah. Silakan hubungi Admin.")

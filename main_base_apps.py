@@ -1,7 +1,7 @@
 import streamlit as st
 from supabase import create_client, Client
 
-# 1. KONFIGURASI HALAMAN (Wajib di baris pertama)
+# 1. KONFIGURASI HALAMAN
 st.set_page_config(
     page_title="Portal MENWA KI LM", 
     page_icon="🪖", 
@@ -9,14 +9,12 @@ st.set_page_config(
 )
 
 # 2. INISIALISASI SESSION STATE
-# Agar status login tetap terjaga saat pindah halaman
 if "authenticated" not in st.session_state:
     st.session_state.authenticated = False
-if "user_nra" not in st.session_state:
-    st.session_state.user_nra = None
+if "user_nbp" not in st.session_state:
+    st.session_state.user_nbp = None
 
 # 3. KONEKSI SUPABASE
-# Pastikan sudah setting di Streamlit Cloud Secrets
 try:
     url = st.secrets["SUPABASE_URL"]
     key = st.secrets["SUPABASE_KEY"]
@@ -25,10 +23,10 @@ except Exception as e:
     st.error("Konfigurasi Database (Secrets) belum lengkap.")
     st.stop()
 
-# 4. FUNGSI LOGIKA LOGIN
-def login_user(nra, password):
-    # Mengonversi NRA menjadi format email internal Supabase secara otomatis
-    email_internal = f"{nra}@menwa.com"
+# 4. FUNGSI LOGIKA LOGIN BERBASIS NBP
+def login_user(nbp, password):
+    # Mengonversi NBP menjadi format email internal secara otomatis
+    email_internal = f"{nbp}@menwa.com"
     try:
         response = supabase.auth.sign_in_with_password({
             "email": email_internal, 
@@ -40,59 +38,58 @@ def login_user(nra, password):
 
 # --- TAMPILAN UI ---
 
-# JIKA BELUM LOGIN (Halaman Depan / Public Area)
 if not st.session_state.authenticated:
     st.title("🪖 Portal Resmi MENWA KI LM")
-    st.subheader("Kompi Latifah Mubarokiyah - Resimen Mahasiswa")
+    st.subheader("Kompi Latifah Mubarokiyah")
     
     st.write("---")
     
-    # Form Login di Sidebar atau Tengah
     with st.container():
-        st.info("Silakan login dengan Nomor Anggota untuk mengakses administrasi.")
+        st.info("Silakan login dengan Nomor Badan Pokok (NBP) Anda.")
         with st.form("login_form"):
-            nra_input = st.text_input("Nomor Registrasi Anggota (NRA)", placeholder="Contoh: 2024.001")
+            nbp_input = st.text_input("Nomor Badan Pokok (NBP)", placeholder="Masukkan NBP Anda")
             pass_input = st.text_input("Password", type="password")
             btn_login = st.form_submit_button("Masuk ke Sistem", use_container_width=True)
             
             if btn_login:
-                res = login_user(nra_input, pass_input)
+                # Menghapus spasi jika user tidak sengaja mengetiknya
+                nbp_clean = nbp_input.strip()
+                res = login_user(nbp_clean, pass_input)
+                
                 if res and res.user:
                     st.session_state.authenticated = True
-                    st.session_state.user_nra = nra_input
-                    st.success(f"Selamat bertugas, {nra_input}!")
+                    st.session_state.user_nbp = nbp_clean
+                    st.success(f"Selamat bertugas, NBP {nbp_clean}!")
                     st.rerun()
                 else:
-                    st.error("Akses ditolak. NRA atau Password salah.")
+                    st.error("Gagal Login. Periksa kembali NBP dan Password Anda.")
 
     st.write("")
     st.caption("© 2026 Resimen Mahasiswa Mahawarman - KI LM")
 
-# JIKA SUDAH LOGIN (Dashboard Utama)
 else:
-    st.title("🚀 Dashboard Utama")
-    st.write(f"Selamat datang kembali, **{st.session_state.user_nra}**")
+    # TAMPILAN DASHBOARD SETELAH LOGIN
+    st.title("🚀 Dashboard Operasional")
+    st.write(f"Selamat bertugas, **NBP {st.session_state.user_nbp}**")
     st.write("---")
 
-    # Layout Tombol Navigasi Besar
     col1, col2 = st.columns(2)
 
     with col1:
-        st.markdown("### 📊 Keuangan")
-        st.write("Input dan pantau saldo Buku Besar.")
+        st.markdown("### 📊 Administrasi")
+        st.write("Kelola Buku Besar & Keuangan.")
         if st.button("Buka Buku Besar", use_container_width=True, type="primary"):
             st.switch_page("pages/1_Buku_Besar.py")
 
     with col2:
         st.markdown("### 🪖 Personil")
-        st.write("Lihat struktur organisasi & profil.")
-        if st.button("Buka Profil", use_container_width=True):
+        st.write("Data Anggota & Struktur.")
+        if st.button("Buka Profil Anggota", use_container_width=True):
             st.switch_page("pages/2_Profil_Organisasi.py")
 
     st.write("---")
     
-    # Tombol Logout
-    if st.button("Keluar dari Sistem"):
+    if st.button("Logout / Keluar"):
         st.session_state.authenticated = False
-        st.session_state.user_nra = None
+        st.session_state.user_nbp = None
         st.rerun()

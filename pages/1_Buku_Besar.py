@@ -12,7 +12,7 @@ if "authenticated" not in st.session_state or not st.session_state.authenticated
     st.warning("⚠️ Akses Terbatas! Silakan login di halaman utama menggunakan NBP.")
     # Tombol untuk memudahkan kembali ke halaman login
     if st.button("Kembali ke Login"):
-        st.switch_page("main_app.py")
+        st.switch_page("main_base_apps.py")
     st.stop() # Menghentikan sisa kode di bawah agar tidak jalan
 # -------------------
 

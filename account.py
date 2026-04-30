@@ -10,26 +10,40 @@ supabase: Client = create_client(url, key)
 # --- KONFIGURASI HALAMAN ---
 st.set_page_config(page_title="Buku Besar MENWA KI LM", layout="centered")
 
-# Sembunyikan semua elemen branding Streamlit
-hide_st_style = """
-            <style>
-            #MainMenu {visibility: hidden;}
-            footer {visibility: hidden !important;}
-            header {visibility: hidden !important;}
-            
-            /* Menyembunyikan seluruh baris footer di mobile */
-            div[data-testid="stFooter"] {display: none !important;}
-            
-            /* Menyembunyikan icon profil dan status di pojok kanan bawah */
-            div[data-testid="stStatusWidget"] {display: none !important;}
-            
-            /* Menghapus spasi kosong di bawah setelah footer disembunyikan */
-            .stApp {
-                margin-bottom: -2rem !important;
-            }
-            </style>
-            """
-st.markdown(hide_st_style, unsafe_allow_html=True)
+st.markdown(
+    """
+    <style>
+    /* 1. Sembunyikan elemen standar */
+    #MainMenu {visibility: hidden;}
+    footer {visibility: hidden !important;}
+    header {visibility: hidden !important;}
+    
+    /* 2. Sembunyikan Toolbar Pojok Kanan Bawah */
+    [data-testid="stStatusWidget"] {
+        display: none !important;
+    }
+
+    /* 3. TRIK UTAMA: Menimpa Footer Streamlit */
+    /* Kita buat kotak penutup di bagian paling bawah layar */
+    .stApp::after {
+        content: "";
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 50px; /* Sesuaikan tinggi untuk menutup bar sponsor */
+        background-color: #0E1117; /* Ganti dengan warna background aplikasi kamu */
+        z-index: 999999;
+    }
+
+    /* 4. Menyesuaikan layout agar konten tidak tertutup kotak penutup */
+    .stApp {
+        margin-bottom: 50px !important;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
 
 # Inisialisasi status aplikasi (Splash Screen & Navigasi)
 if 'auth' not in st.session_state:

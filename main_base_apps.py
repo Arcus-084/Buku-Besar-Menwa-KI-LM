@@ -18,17 +18,20 @@ def login_user(email, password):
 if not st.session_state.get("authenticated"):
     st.title("🔑 Login Anggota MENWA")
     
-    with st.form("login_form"):
-        email = st.text_input("Email Anggota")
-        password = st.text_input("Password", type="password")
-        submit = st.form_submit_button("Masuk ke Sistem")
+    # --- UI LOGIN ---
+with st.form("login_form"):
+    # Kita ganti labelnya jadi Nomor Anggota
+    nra = st.text_input("Nomor Badan Pokok (NBP)") 
+    password = st.text_input("Password", type="password")
+    submit = st.form_submit_button("Masuk")
+
+    if submit:
+        # OTOMATIS TAMBAHKAN DOMAIN DI BELAKANGNYA SECARA SILENT
+        email_otomatis = f"{nra}@menwa.com" 
         
-        if submit:
-            res = login_user(email, password)
-            if res and res.user:
-                st.session_state.authenticated = True
-                st.session_state.user_email = res.user.email
-                st.success("Login Berhasil!")
-                st.rerun()
-            else:
-                st.error("Email atau Password salah. Silakan hubungi Admin.")
+        res = login_user(email_otomatis, password)
+        if res and res.user:
+            st.session_state.authenticated = True
+            st.session_state.user_email = nra # Simpan NRA-nya saja untuk identitas
+            st.success(f"Selamat bertugas, {nra}!")
+            st.rerun()

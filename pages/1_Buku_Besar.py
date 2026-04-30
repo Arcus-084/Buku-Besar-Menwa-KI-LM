@@ -2,14 +2,23 @@ import streamlit as st
 from supabase import create_client, Client
 import pandas as pd
 
+
 # 1. Koneksi Supabase
 url = st.secrets["SUPABASE_URL"]
 key = st.secrets["SUPABASE_KEY"]
 supabase: Client = create_client(url, key)
+# --- KODE GEMBOK ---
+if "authenticated" not in st.session_state or not st.session_state.authenticated:
+    st.warning("⚠️ Akses Terbatas! Silakan login di halaman utama menggunakan NBP.")
+    # Tombol untuk memudahkan kembali ke halaman login
+    if st.button("Kembali ke Login"):
+        st.switch_page("main_app.py")
+    st.stop() # Menghentikan sisa kode di bawah agar tidak jalan
+# -------------------
 
-# --- KONFIGURASI HALAMAN ---
-st.set_page_config(page_title="Buku Besar MENWA KI LM", layout="centered")
-
+# Baru masukkan kode isi halaman kamu di bawah sini
+st.title("📊 Administrasi Buku Besar")
+st.write(f"Operator Aktif: NBP {st.session_state.user_nbp}")
 # Inisialisasi status aplikasi (Splash Screen & Navigasi)
 if 'auth' not in st.session_state:
     st.session_state.auth = False

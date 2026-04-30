@@ -7,14 +7,6 @@ import pandas as pd
 url = st.secrets["SUPABASE_URL"]
 key = st.secrets["SUPABASE_KEY"]
 supabase: Client = create_client(url, key)
-# --- KODE GEMBOK ---
-if "authenticated" not in st.session_state or not st.session_state.authenticated:
-    st.warning("⚠️ Akses Terbatas! Silakan login di halaman utama menggunakan NBP.")
-    # Tombol untuk memudahkan kembali ke halaman login
-    if st.button("Kembali ke Login"):
-        st.switch_page("main_base_apps.py")
-    st.stop() # Menghentikan sisa kode di bawah agar tidak jalan
-# -------------------
 # --- KODE PAKSA HAPUS SIDEBAR ---
 st.markdown("""
     <style>
@@ -28,6 +20,14 @@ st.markdown("""
         .main .block-container {max-width: 800px; padding-top: 2rem;}
     </style>
 """, unsafe_allow_html=True)
+# --- KODE GEMBOK ---
+if "authenticated" not in st.session_state or not st.session_state.authenticated:
+    st.warning("⚠️ Akses Terbatas! Silakan login di halaman utama menggunakan NBP.")
+    # Tombol untuk memudahkan kembali ke halaman login
+    if st.button("Kembali ke Login"):
+        st.switch_page("main_base_apps.py")
+    st.stop() # Menghentikan sisa kode di bawah agar tidak jalan
+# -------------------
 # Baru masukkan kode isi halaman kamu di bawah sini
 st.title("📊 Administrasi Buku Besar")
 st.write(f"Operator Aktif: NBP {st.session_state.user_nbp}")

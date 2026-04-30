@@ -7,12 +7,19 @@ url = st.secrets["SUPABASE_URL"]
 key = st.secrets["SUPABASE_KEY"]
 supabase: Client = create_client(url, key)
 
-# --- FUNGSI HELPER BARU ---
+# --- KONFIGURASI HALAMAN ---
+st.set_page_config(page_title="Buku Besar MENWA KI LM", layout="centered")
+
+# Inisialisasi status aplikasi (Splash Screen & Navigasi)
+if 'auth' not in st.session_state:
+    st.session_state.auth = False
+if 'menu' not in st.session_state:
+    st.session_state.menu = "home"
+
+# --- FUNGSI HELPER ---
 def format_rupiah(nominal):
-    """Mengubah angka menjadi format Rp 1.000.000"""
     return f"Rp {int(nominal):,}".replace(',', '.')
 
-# --- DEFINISI FUNGSI ---
 def get_accounts():
     try:
         response = supabase.table("accounts").select("id, account_name, account_type").execute()
@@ -21,74 +28,111 @@ def get_accounts():
         return []
 
 def upload_image(file):
-    file_path = f"kuitansi/{file.name}"
-    supabase.storage.from_("kuitansi_organisasi").upload(file_path, file.getvalue())
-    return supabase.storage.from_("kuitansi_organisasi").get_public_url(file_path)
+    try:
+        file_path = f"kuitansi/{file.name}"
+        supabase.storage.from_("kuitansi_organisasi").upload(file_path, file.getvalue())
+        return supabase.storage.from_("kuitansi_organisasi").get_public_url(file_path)
+    except:
+        return None
 
-# --- TAMPILAN APLIKASI ---
-st.title("Buku Besar MENWA KI LM")
+# --- LOGIKA TAMPILAN ---
 
-accounts_data = get_accounts()
-if not accounts_data:
-    st.error("Gagal mengambil data akun.")
-    st.stop()
-
-account_options = {f"{a['account_name']} ({a['account_type']})": a['id'] for a in accounts_data}
-
-# --- BAGIAN RINGKASAN SALDO (Optional tapi Bagus) ---
-recent_logs = supabase.table("transactions").select("*, accounts(account_name)").order("created_at", desc=True).execute()
-
-if recent_logs.data:
-    df_all = pd.DataFrame(recent_logs.data)
-    total_masuk = df_all[df_all['type'] == 'debit']['amount'].sum()
-    total_keluar = df_all[df_all['type'] == 'kredit']['amount'].sum()
-    saldo_total = total_masuk - total_keluar
+# A. SPLASH SCREEN (Tampilan Pertama Kali Buka)
+if not st.session_state.auth:
+    st.markdown("<br><br><br>", unsafe_allow_html=True)
+    col_logo1, col_logo2, col_logo3 = st.columns([1, 2, 1])
     
-    col_s1, col_s2, col_s3 = st.columns(3)
-    col_s1.metric("Total Pemasukan", format_rupiah(total_masuk))
-    col_s2.metric("Total Pengeluaran", format_rupiah(total_keluar))
-    col_s3.metric("Saldo Kas", format_rupiah(saldo_total))
-
-st.divider()
-
-# 3. Form Input Transaksi (Tetap sama)
-st.subheader("Input Transaksi Baru")
-with st.form("transaction_form", clear_on_submit=True):
-    col1, col2 = st.columns(2)
-    with col1:
-        date = st.date_input("Tanggal Transaksi")
-        amount = st.number_input("Nominal (Rp)", min_value=0, step=1000)
-        evidence_file = st.file_uploader("Upload Bukti", type=['png', 'jpg', 'jpeg'])
-    with col2:
-        selected_account_name = st.selectbox("Pilih Kategori Akun", list(account_options.keys()))
-        description = st.text_input("Keterangan/Deskripsi")
-    
-    submitted = st.form_submit_button("Simpan Transaksi")
-    if submitted:
-        # ... (Logika simpan tetap sama seperti kode kamu)
-        account_id = account_options[selected_account_name]
-        trans_type = "debit" if "Pemasukan" in selected_account_name else "kredit"
-        image_url = upload_image(evidence_file) if evidence_file else None
-        data = {"date": str(date), "description": description, "amount": amount, 
-                "account_id": account_id, "type": trans_type, "evidence_url": image_url}
-        response = supabase.table("transactions").insert(data).execute()
-        if response.data:
-            st.success(f"Berhasil mencatat!")
+    with col_logo2:
+        # GANTI URL INI dengan link logo MENWA KI LM kamu
+        logo_url = "https://placeholder.com/wp-content/uploads/2018/10/placeholder.com-logo3.png" 
+        st.image(logo_url, use_container_width=True)
+        st.markdown("<h2 style='text-align: center;'>Buku Besar Digital</h2>", unsafe_allow_html=True)
+        st.markdown("<p style='text-align: center;'>Resimen Mahasiswa Kompi Latifah Mubarokiyah</p>", unsafe_allow_html=True)
+        
+        if st.button("Masuk ke Sistem", use_container_width=True):
+            st.session_state.auth = True
             st.rerun()
 
-# 4. Tampilkan Transaksi dengan Format Rupiah
-st.subheader("Catatan Terakhir")
-if recent_logs.data:
-    # Ambil 5 data terbaru dari DataFrame yang sudah ada
-    df_display = pd.DataFrame(recent_logs.data).head(5)
-    
-    # Merapikan tampilan tabel
-    df_display['Kategori'] = df_display['accounts'].apply(lambda x: x['account_name'])
-    
-    # BAGIAN PENTING: Format Kolom Amount
-    df_display['Nominal (Rp)'] = df_display['amount'].apply(format_rupiah)
-    
-    # Menampilkan tabel dengan kolom baru
-    st.table(df_display[['date', 'Kategori', 'description', 'Nominal (Rp)', 'type']])
+# B. MAIN APP (Tampilan Setelah Klik Masuk)
 else:
-    st.info("Belum ada transaksi.")
+    # Header: Logo pindah ke pojok kiri atas
+    head_1, head_2 = st.columns([1, 6])
+    with head_1:
+        st.image("https://ygkqeydetmlsgwmdglyk.supabase.co/storage/v1/object/public/Logo%20Orgnisasi/MENWA_KI_LM__1__page-0001-removebg-preview.png", width=70)
+    with head_2:
+        st.subheader("MENWA Mahawarman KI LM")
+
+    st.divider()
+
+    # PILIHAN MENU UTAMA
+    st.write("### Pilih Menu Utama")
+    m1, m2 = st.columns(2)
+    
+    with m1:
+        if st.button("➕ Input Saldo Baru", use_container_width=True):
+            st.session_state.menu = "input"
+    with m2:
+        if st.button("📊 Catatan Terakhir", use_container_width=True):
+            st.session_state.menu = "laporan"
+
+    st.divider()
+
+    # --- KONTEN DINAMIS BERDASARKAN PILIHAN MENU ---
+    
+    accounts_data = get_accounts()
+    account_options = {f"{a['account_name']} ({a['account_type']})": a['id'] for a in accounts_data}
+
+    # HALAMAN INPUT
+    if st.session_state.menu == "input":
+        st.subheader("Form Input Transaksi Baru")
+        with st.form("transaction_form", clear_on_submit=True):
+            col1, col2 = st.columns(2)
+            with col1:
+                date = st.date_input("Tanggal Transaksi")
+                amount = st.number_input("Nominal (Rp)", min_value=0, step=1000)
+                evidence_file = st.file_uploader("Upload Bukti", type=['png', 'jpg', 'jpeg'])
+            with col2:
+                selected_account_name = st.selectbox("Pilih Kategori Akun", list(account_options.keys()))
+                description = st.text_input("Keterangan/Deskripsi")
+            
+            submitted = st.form_submit_button("Simpan Transaksi")
+            if submitted:
+                account_id = account_options[selected_account_name]
+                trans_type = "debit" if "Pemasukan" in selected_account_name else "kredit"
+                image_url = upload_image(evidence_file) if evidence_file else None
+                data = {"date": str(date), "description": description, "amount": amount, 
+                        "account_id": account_id, "type": trans_type, "evidence_url": image_url}
+                response = supabase.table("transactions").insert(data).execute()
+                if response.data:
+                    st.success("✅ Berhasil mencatat!")
+        
+        if st.button("⬅️ Kembali ke Home"):
+            st.session_state.menu = "home"
+            st.rerun()
+
+    # HALAMAN LAPORAN
+    elif st.session_state.menu == "laporan":
+        st.subheader("Ringkasan Saldo & Riwayat")
+        
+        recent_logs = supabase.table("transactions").select("*, accounts(account_name)").order("created_at", desc=True).execute()
+
+        if recent_logs.data:
+            df_all = pd.DataFrame(recent_logs.data)
+            # Metrik Saldo
+            total_masuk = df_all[df_all['type'] == 'debit']['amount'].sum()
+            total_keluar = df_all[df_all['type'] == 'kredit']['amount'].sum()
+            
+            s1, s2, s3 = st.columns(3)
+            s1.metric("Pemasukan", format_rupiah(total_masuk))
+            s2.metric("Pengeluaran", format_rupiah(total_keluar))
+            s3.metric("Saldo Akhir", format_rupiah(total_masuk - total_keluar))
+            
+            st.write("#### 5 Transaksi Terakhir")
+            df_display = df_all.head(5)
+            df_display['Kategori'] = df_display['accounts'].apply(lambda x: x['account_name'])
+            df_display['Nominal (Rp)'] = df_display['amount'].apply(format_rupiah)
+            st.table(df_display[['date', 'Kategori', 'description', 'Nominal (Rp)', 'type']])
+        
+        if st.button("⬅️ Kembali ke Home"):
+            st.session_state.menu = "home"
+            st.rerun()

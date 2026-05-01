@@ -18,7 +18,7 @@ st.markdown("""
 # 1. KONFIGURASI HALAMAN
 st.set_page_config(
     page_title="Portal MENWA KI LM", 
-    page_icon="🪖", 
+    page_icon="https://ygkqeydetmlsgwmdglyk.supabase.co/storage/v1/object/public/Logo%20Orgnisasi/MENWA_KI_LM__1__page-0001-removebg-preview%20(1).png", 
     layout="centered"
 )
 

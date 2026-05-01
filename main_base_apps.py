@@ -53,8 +53,14 @@ def login_user(nbp, password):
 # --- TAMPILAN UI ---
 
 if not st.session_state.authenticated:
-    st.title("🪖 Portal Resmi MENWA KI LM")
-    st.subheader("Kompi Latifah Mubarokiyah")
+    col1, col2, col3 = st.columns([1, 0.6, 1])
+    with col2:
+
+        st.image("https://ygkqeydetmlsgwmdglyk.supabase.co/storage/v1/object/public/Logo%20Orgnisasi/MENWA_KI_LM__1__page-0001-removebg-preview%20(1).png", width=150)
+
+    st.markdown("<h1 style='text-align: center;'>Portal Resmi MENWA KI LM</h1>", unsafe_allow_html=True)
+    st.markdown("<p style='text-align: center; font-size: 20px;'>Kompi Latifah Mubarokiyah</p>", unsafe_allow_html=True)
+    st.divider()
     
     st.write("---")
     

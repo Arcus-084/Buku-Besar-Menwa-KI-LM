@@ -53,7 +53,7 @@ def login_user(nbp, password):
 # --- TAMPILAN UI ---
 
 if not st.session_state.authenticated:
-    col1, col2, col3 = st.columns([1, 0.6, 1])
+    col1, col2, col3 = st.columns([1, 2, 1])
     with col2:
 
         st.image("https://ygkqeydetmlsgwmdglyk.supabase.co/storage/v1/object/public/Logo%20Orgnisasi/MENWA_KI_LM__1__page-0001-removebg-preview%20(1).png", width=150)

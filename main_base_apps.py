@@ -60,7 +60,6 @@ if not st.session_state.authenticated:
 
     st.markdown("<h1 style='text-align: center;'>Portal Resmi MENWA KI LM</h1>", unsafe_allow_html=True)
     st.markdown("<p style='text-align: center; font-size: 20px;'>Kompi Latifah Mubarokiyah</p>", unsafe_allow_html=True)
-    st.divider()
     
     st.write("---")
     

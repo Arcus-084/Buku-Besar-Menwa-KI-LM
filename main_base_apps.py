@@ -73,7 +73,7 @@ st.markdown("""
 # --- SIDEBAR (DINAMIS) ---
 with st.sidebar:
     st.markdown("### 🪖 Menu Navigasi")
-    st.page_link("app.py", label="Beranda", icon="🏠")
+    st.page_link("main_base_apps.py", label="Beranda", icon="🏠")
     st.page_link("pages/2_Profil_Organisasi.py", label="Struktur Organisasi", icon="📜")
     
     if st.session_state.authenticated:

@@ -102,7 +102,7 @@ with st.container():
                 else:
                     st.error("Gagal Login. Periksa kembali NBP dan Password Anda.")
 
-    st.write("   ")
+    st.write("---")
     st.caption("© 2026 Resimen Mahasiswa Mahawarman - KI LM")
 else:
     # TAMPILAN DASHBOARD SETELAH LOGIN

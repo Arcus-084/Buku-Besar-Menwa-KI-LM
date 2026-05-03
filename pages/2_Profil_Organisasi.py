@@ -1,109 +1,129 @@
 import streamlit as st
 
+# 1. PROTEKSI HALAMAN & KONFIGURASI
+# Mengecek apakah user sudah login dari halaman utama
+if not st.session_state.get("authenticated", False):
+    st.error("Silakan login terlebih dahulu di halaman utama untuk mengakses data personil.")
+    st.stop()
+
 st.set_page_config(page_title="Struktur Organisasi - KI LM", layout="wide")
 
-# CSS Kustom: Mengambil vibes Hard File ke versi Online
+# 2. CSS CUSTOM (Tema Hard File Online)
 st.markdown("""
     <style>
         .stApp { background-color: #000000; }
-        .level-label {
+        
+        .tier-header {
             color: #ffd700;
             font-weight: bold;
             text-align: center;
-            border-bottom: 1px solid #333;
-            padding-bottom: 5px;
-            margin-top: 30px;
-            margin-bottom: 20px;
-            letter-spacing: 2px;
-        }
-        .org-box {
-            background-color: #d1d1d1;
-            border-left: 5px solid #808080;
-            padding: 15px;
-            text-align: center;
-            color: black;
-            border-radius: 4px;
-            margin-bottom: 15px;
-        }
-        .job-title {
-            font-weight: 800;
-            font-size: 14px;
-            margin-bottom: 2px;
+            padding: 10px;
+            margin-top: 40px;
+            border-bottom: 2px solid #2e3b23;
+            letter-spacing: 3px;
             font-family: 'Arial Black', sans-serif;
         }
-        .member-name {
-            font-size: 13px;
-            color: #333;
+
+        .member-card {
+            background-color: #d1d1d1;
+            border-left: 8px solid #2e3b23;
+            padding: 20px;
+            text-align: center;
+            color: #000000;
+            border-radius: 4px;
+            margin-bottom: 20px;
+            min-height: 180px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            box-shadow: 0px 4px 15px rgba(0,0,0,0.5);
         }
-        .nbp-text {
-            font-size: 11px;
-            color: #555;
+
+        .photo-container img {
+            border-radius: 5px;
+            border: 2px solid #808080;
+            object-fit: cover;
+            margin-bottom: 10px;
+            height: 120px;
+            width: 100px;
         }
+
+        .role-title {
+            font-weight: 900;
+            font-size: 14px;
+            text-transform: uppercase;
+            border-bottom: 1px solid #808080;
+            margin-bottom: 5px;
+        }
+
+        .name-title { font-size: 14px; font-weight: bold; }
+        .nbp-sub { font-size: 11px; color: #444; }
     </style>
 """, unsafe_allow_html=True)
 
-# --- FUNGSI REUSABLE UNTUK KOTAK PERSONIL ---
-def personil(jabatan, nama, nbp="-"):
+# 3. FUNGSI DISPLAY PERSONIL (Dengan Placeholder Foto)
+# Gunakan URL Logo Menwa sebagai foto sementara (Placeholder)
+DEFAULT_IMG = "https://ygkqeydetmlsgwmdglyk.supabase.co/storage/v1/object/public/Logo%20Orgnisasi/MENWA_KI_LM__1__page-0001-removebg-preview%20(1).png"
+
+def display_member(jabatan, nama, nbp, foto_url=None):
+    img_path = foto_url if foto_url else DEFAULT_IMG
     st.markdown(f"""
-        <div class="org-box">
-            <div class="job-title">{jabatan}</div>
-            <div class="member-name">{nama}</div>
-            <div class="nbp-text">NBP: {nbp}</div>
+        <div class="member-card">
+            <div class="photo-container">
+                <img src="{img_path}">
+            </div>
+            <div class="role-title">{jabatan}</div>
+            <div class="name-title">{nama}</div>
+            <div class="nbp-sub">NBP: {nbp}</div>
         </div>
     """, unsafe_allow_html=True)
 
-# 1. HEADER LOGO & JUDUL
+# 4. HEADER
 st.markdown(
     """
-    <div style="display: flex; justify-content: center; align-items: center; gap: 20px;">
-        <img src="https://ygkqeydetmlsgwmdglyk.supabase.co/storage/v1/object/public/Logo%20Orgnisasi/MENWA_KI_LM__1__page-0001-removebg-preview%20(1).png" width="80">
-        <h2 style='color: white; margin: 0;'>STRUKTUR ORGANISASI ONLINE</h2>
+    <div style="display: flex; justify-content: center; align-items: center; gap: 25px; margin-bottom: 30px;">
+        <img src="https://ygkqeydetmlsgwmdglyk.supabase.co/storage/v1/object/public/Logo%20Orgnisasi/MENWA_KI_LM__1__page-0001-removebg-preview%20(1).png" width="90">
+        <div>
+            <h1 style='color: white; margin: 0;'>STRUKTUR ORGANISASI</h1>
+            <p style='color: #ffd700; margin: 0;'>KOMPI LATIFAH MUBAROKIYAH - TA 2025/2026</p>
+        </div>
     </div>
     """, unsafe_allow_html=True)
 
-st.write("---")
+# 5. SUSUNAN HIERARKI (Jalur Komando Online)
 
-# 2. TIER 1: UNSUR PEMBINA & PENASEHAT (Dosen & Senior)
-st.markdown('<div class="level-label">UNSUR PEMBINA & PENASEHAT</div>', unsafe_allow_html=True)
-col1, col2 = st.columns(2)
-with col1:
-    personil("PEMBINA", "Nama Dosen Pembina", "NIDN. 0001XXX")
-with col2:
-    personil("PENASEHAT", "Nama Penasehat", "NBP. XX.XXX.XX")
+# TIER 1: PEMBINA & KAMATRIK
+st.markdown('<div class="tier-header">UNSUR PIMPINAN & PEMBINA</div>', unsafe_allow_html=True)
+t1_c1, t1_c2 = st.columns(2)
+with t1_c1:
+    display_member("PEMBINA (DOSEN)", "Nama Dosen Pembina", "NIDN. 0001XXX")
+with t1_c2:
+    display_member("KAMATRIK", "Nama Kamatrik", "NBP. XX.XXX.XX")
 
-# 3. TIER 2: PIMPINAN TERTINGGI (Kamatrik & Danmen)
-st.markdown('<div class="level-label">PIMPINAN KOMANDO</div>', unsafe_allow_html=True)
-col1, col2 = st.columns(2)
-with col1:
-    personil("KAMATRIK", "Nama Kamatrik", "NBP. XX.XXX.XX")
-with col2:
-    personil("DANMEN", "Nama Danmen", "NBP. XX.XXX.XX")
+# TIER 2: KASMATRIK
+st.markdown('<div class="tier-header">KOMANDO MARKAS</div>', unsafe_allow_html=True)
+_, t2_mid, _ = st.columns([1, 1.5, 1])
+with t2_mid:
+    display_member("KASMATRIK", "Nama Kasmatrik", "NBP. XX.XXX.XX")
 
-# 4. TIER 3: STAF KOMANDO (Kasmatrik & Danki)
-st.markdown('<div class="level-label">STAF & OPERASIONAL</div>', unsafe_allow_html=True)
-col1, col2, col3 = st.columns(3)
-with col1:
-    personil("KASMATRIK", "Nama Kasmatrik", "NBP. XX.XXX.XX")
-with col2:
-    personil("DANKI", "Nama Danki", "NBP. XX.XXX.XX")
-with col3:
-    personil("WADANKI", "Nama Wadanki", "NBP. XX.XXX.XX")
+# TIER 3: PELAKSANA (DANKI, WADANKI, PELATIH)
+st.markdown('<div class="tier-header">UNSUR PELAKSANA</div>', unsafe_allow_html=True)
+t3_c1, t3_c2, t3_c3 = st.columns(3)
+with t3_c1:
+    display_member("DANKI", "Nama Danki", "NBP. XX.XXX.XX")
+with t3_c2:
+    display_member("WADANKI", "Nama Wadanki", "NBP. XX.XXX.XX")
+with t3_c3:
+    display_member("PELATIH", "Nama Pelatih", "NBP. XX.XXX.XX")
 
-# 5. TIER 4: PELATIH & KORPS
-col1, col2 = st.columns(2)
-with col1:
-    personil("PELATIH", "Nama Pelatih", "NBP. XX.XXX.XX")
-with col2:
-    personil("KORPS", "Nama Korps", "NBP. XX.XXX.XX")
+# TIER 4: ANGGOTA (Grid)
+st.markdown('<div class="tier-header">KESATUAN ANGGOTA</div>', unsafe_allow_html=True)
+m_cols = st.columns(4)
+for i in range(4):
+    with m_cols[i]:
+        display_member("ANGGOTA", f"Nama Anggota {i+1}", "XX.XXX.XX")
 
-# 6. TIER 5: ANGGOTA / SATUAN (Grid 4 Kolom)
-st.markdown('<div class="level-label">ANGGOTA KESATUAN</div>', unsafe_allow_html=True)
-cols = st.columns(4)
-for i in range(8): # Contoh 8 anggota
-    with cols[i % 4]:
-        personil("ANGGOTA", f"Nama Anggota {i+1}", "XX.XXX.XX")
-
-# FOOTER KEBANGGAAN KAMU
+# 6. FOOTER
 st.write("<br><br>", unsafe_allow_html=True)
-st.caption("© 2026 Menwa Mahawarman KI LM")
+st.caption("© 2026 Resimen Mahasiswa Mahawarman - KI LM")
 st.caption("Developed by [Nama Kamu] | [Nama Grup]")

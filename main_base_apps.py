@@ -103,29 +103,29 @@ with st.container():
                     st.error("Gagal Login. Periksa kembali NBP dan Password Anda.")
         st.write("---")
         st.caption("© 2026 Resimen Mahasiswa Mahawarman - KI LM")
-            else:
+         
                     # TAMPILAN DASHBOARD SETELAH LOGIN
-                st.title("🚀 Dashboard Operasional")
-                st.write(f"Selamat bertugas, **NBP {st.session_state.user_nbp}**")
-                st.write("---")
+st.title("🚀 Dashboard Operasional")
+st.write(f"Selamat bertugas, **NBP {st.session_state.user_nbp}**")
+st.write("---")
 
-                col1, col2 = st.columns(2)
+col1, col2 = st.columns(2)
 
-                with col1:
-                    st.markdown("### 📊 Administrasi")
-                    st.write("Kelola Buku Besar & Keuangan.")
-                    if st.button("Buka Buku Besar", use_container_width=True, type="primary"):
-                        st.switch_page("pages/1_Buku_Besar.py")
+with col1:
+     st.markdown("### 📊 Administrasi")
+     st.write("Kelola Buku Besar & Keuangan.")
+    if st.button("Buka Buku Besar", use_container_width=True, type="primary"):
+     st.switch_page("pages/1_Buku_Besar.py")
             
-                with col2:
-                    st.markdown("### 🪖 Personil")
-                    st.write("Data Anggota & Struktur.")
-                    if st.button("Buka Profil Anggota", use_container_width=True):
-                        st.switch_page("pages/2_Profil_Organisasi.py")
+         with col2:
+            st.markdown("### 🪖 Personil")
+            st.write("Data Anggota & Struktur.")
+         if st.button("Buka Profil Anggota", use_container_width=True):
+            st.switch_page("pages/2_Profil_Organisasi.py")
             
-                st.write("---")
+        st.write("---")
                 
-                if st.button("Logout / Keluar"):
-                    st.session_state.authenticated = False
-                    st.session_state.user_nbp = None
-                    st.rerun()
+         if st.button("Logout / Keluar"):
+            st.session_state.authenticated = False
+            st.session_state.user_nbp = None
+            st.rerun()

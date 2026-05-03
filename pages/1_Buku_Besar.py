@@ -69,7 +69,7 @@ def upload_image(file):
 # --- SIDEBAR NAVIGASI ---
 with st.sidebar:
     st.image("https://ygkqeydetmlsgwmdglyk.supabase.co/storage/v1/object/public/Logo%20Orgnisasi/MENWA_KI_LM__1__page-0001-removebg-preview%20(1).png", width=100)
-    st.markdown(f"### 🪖 Operator Aktif\n**{st.session_state.user_nama}**\n`NBP: {st.session_state.user_nbp}`")
+    st.markdown(f"### 🪖 Operator Aktif\n**{st.session_state.user_nama}**  \n`NBP: {st.session_state.user_nbp}`")
     st.divider()
     st.page_link("main_base_apps.py", label="Beranda", icon="🏠")
     st.page_link("pages/2_Profil_Organisasi.py", label="Struktur Organisasi", icon="📜")

@@ -104,7 +104,13 @@ st.markdown("""
         </marquee>
     </div>
 """, unsafe_allow_html=True)
-
+st.markdown("""
+    <div style="background-color: #000000; padding: 10px; border-radius: 5px; border-top: 3px solid #ffd700; border-bottom: 3px solid #ffd700; margin-bottom: 25px;">
+        <marquee scrollamount="8" style="color: #ffd700; font-weight: bold; font-family: 'Courier New', Courier, monospace; letter-spacing: 1px;">
+            [ BREAKING NEWS ] >>> PENERIMAAN ANGGOTA BARU MENWA KI LM TA 2026/2027 >>> WIDYA CASTRENA DHARMA SIDDHA >>> TUNJUKKAN BAKTIMU PADA NUSA DAN BANGSA SEKARANG JUGA! <<< [ BREAKING NEWS ]
+        </marquee>
+    </div>
+""", unsafe_allow_html=True)
 # C. Judul
 st.markdown("<h1 style='text-align: center;'>Portal Resmi MENWA KI LM</h1>", unsafe_allow_html=True)
 st.markdown("<h3 style='text-align: center; color: grey;'>Batalyon VIII/Tarumanagara</h3>", unsafe_allow_html=True)
@@ -123,6 +129,27 @@ if not st.session_state.authenticated:
         Menwa juga merupakan salah satu komponen warga negara yang mendapat pelatihan militer (unsur mahasiswa). Markas komando satuan Menwa bertempat di perguruan tinggi di kesatuan masing-masing yang anggotanya adalah mahasiswa yang berkedudukan di kampus tersebut. 
         Anggota Menwa sendiri akan diberikan dan dibekali pelatihan ilmu militer seperti penggunaan senjata, taktik pertempuran, survival, terjun payung, bela diri militer, senam militer, penyamaran, navigasi dan sebagainya.
         """)
+
+    # Penerimaan CAMEN
+    with st.expander("📢 DETAIL PENDAFTARAN ANGGOTA BARU"):
+        st.markdown("""
+        ### 🛡️ Open Recruitment 2026
+        Jadilah bagian dari Resimen Mahasiswa Mahawarman Kompi Latifah Mubarokiyah!
+        
+        **Persyaratan Umum:**
+        1. Sukarela
+        2. Merupakan Mahasiswa/i aktif kampus STIE & IAI Latifah Mubarokiyah
+        3. Sehat Jasmani dan Rohani
+        4. Beriman dan Bertaqwa Kepada Tuhan Yang Maha Esa
+        
+        **Cara Mendaftar:**
+        * Silakan ambil formulir di Mako Menwa KI LM.
+        * Atau hubungi kontak person: **[Nomor WA/Kontak]**
+        
+        *Penyempurnaan Pengabdian dengan Ilmu Pengetahuan dan Ilmu Keprajuritan!*
+        """)
+        # Jika ada link Google Form, bisa tambahkan tombol:
+        st.link_button("Daftar Online Sekarang", "https://link-gform-kamu.com")
     
     # 2. Panca Dharma Satya & Mars
     col_info1, col_info2 = st.columns(2)

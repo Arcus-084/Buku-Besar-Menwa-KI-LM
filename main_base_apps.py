@@ -68,7 +68,7 @@ if not st.session_state.authenticated:
     
     st.write("---")
     st.write("### Pilih Menu Utama")
-    m1, m2 = st.columns(2)
+    m1, m2, m3 = st.columns(3)
     
     with m1:
         if st.button("Sejarah Menwa", use_container_width=True):
@@ -76,16 +76,8 @@ if not st.session_state.authenticated:
     with m2:
         if st.button("Login", use_container_width=True):
             st.session_state.menu = "login"
-
- 
-    # --- UI TAMPILAN SEJARAH ---
-    if st.session_state.menu == "sejarah":
-        st.title("📜 Sejarah Menwa MAHAWARMAN")
-        st.markdown("""**Resimen Mahasiswa** (disingkat Menwa) adalah salah satu kekuatan sipil yang dilatih dan dipersiapkan untuk mempertahankan NKRI sebagai perwujudan Sistem Pertahanan dan Keamanan Rakyat Semesta (Sishankamrata). 
-        Menwa juga merupakan salah satu komponen warga negara yang mendapat pelatihan militer (unsur mahasiswa). Markas komando satuan Menwa bertempat di perguruan tinggi di kesatuan masing-masing yang anggotanya adalah mahasiswa yang berkedudukan di kampus tersebut. 
-        Menwa merupakan komponen cadangan pertahanan negara yang diberikan pelatihan ilmu militer seperti penggunaan senjata, taktik pertempuran, survival, terjun payung, bela diri militer, senam militer, penyamaran, navigasi dan sebagainya.""")
-    st.write("---")
-    with st.container():
+    with m3 :
+        with st.container():
         st.info("Silakan login dengan Nomor Badan Pokok (NBP) Anda.")
         with st.form("login_form"):
             nbp_input = st.text_input("Nomor Badan Pokok (NBP)", placeholder="Masukkan NBP Anda")
@@ -107,6 +99,15 @@ if not st.session_state.authenticated:
 
     st.write("")
     st.caption("© 2026 Resimen Mahasiswa Mahawarman - KI LM")
+ 
+    # --- UI TAMPILAN SEJARAH ---
+    if st.session_state.menu == "sejarah":
+        st.title("📜 Sejarah Menwa MAHAWARMAN")
+        st.markdown("""**Resimen Mahasiswa** (disingkat Menwa) adalah salah satu kekuatan sipil yang dilatih dan dipersiapkan untuk mempertahankan NKRI sebagai perwujudan Sistem Pertahanan dan Keamanan Rakyat Semesta (Sishankamrata). 
+        Menwa juga merupakan salah satu komponen warga negara yang mendapat pelatihan militer (unsur mahasiswa). Markas komando satuan Menwa bertempat di perguruan tinggi di kesatuan masing-masing yang anggotanya adalah mahasiswa yang berkedudukan di kampus tersebut. 
+        Menwa merupakan komponen cadangan pertahanan negara yang diberikan pelatihan ilmu militer seperti penggunaan senjata, taktik pertempuran, survival, terjun payung, bela diri militer, senam militer, penyamaran, navigasi dan sebagainya.""")
+    st.write("---")
+   
 
 else:
     # TAMPILAN DASHBOARD SETELAH LOGIN

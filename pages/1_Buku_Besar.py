@@ -20,6 +20,43 @@ st.markdown("""
         .main .block-container {max-width: 800px; padding-top: 2rem;}
     </style>
 """, unsafe_allow_html=True)
+st.markdown("""
+    <style>
+        /* 1. Mengubah Background Utama */
+        .stApp {
+            background-color: #0e1117; /* Warna gelap navy-grey */
+            background-image: radial-gradient(circle at 20% 30%, #1d2b1a 0%, #0e1117 100%); /* Ada sentuhan gradasi hijau army gelap */
+        }
+
+        /* 2. Mengubah Warna Teks agar Kontras */
+        h1, h2, h3, p, span {
+            color: #e0e0e0 !important;
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* 3. Mempercantik Card/Kontainer Login */
+        [data-testid="stForm"] {
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 30px;
+        }
+
+        /* 4. Mengubah Warna Tombol agar lebih 'Komando' */
+        .stButton>button {
+            background-color: #2e3b23 !important; /* Hijau Army */
+            color: #f1f1f1 !important;
+            border-radius: 8px !important;
+            border: 1px solid #4a5d3a !important;
+            transition: 0.3s;
+        }
+        
+        .stButton>button:hover {
+            background-color: #3d4f2f !important;
+            border-color: #ffd700 !important; /* Glow kuning emas pas di-hover */
+        }
+    </style>
+""", unsafe_allow_html=True)
 # --- KODE GEMBOK ---
 if "authenticated" not in st.session_state or not st.session_state.authenticated:
     st.warning("⚠️ Akses Terbatas! Silakan login di halaman utama menggunakan NBP.")

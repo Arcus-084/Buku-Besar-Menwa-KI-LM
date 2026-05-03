@@ -119,9 +119,9 @@ if not st.session_state.authenticated:
     # 1. Sejarah Menwa
     with st.expander("📜 Sejarah Menwa Mahawarman"):
         st.markdown("""
-        **Resimen Mahasiswa Mahawarman** merupakan bagian dari sejarah perjuangan bangsa. Dibentuk pada masa konfrontasi sebagai wujud pembelaan negara oleh mahasiswa. 
-        
-        *Widya Castrena Dharma Siddha* adalah semboyan kami yang berarti 'Penyempurnaan Pengabdian dengan Ilmu Pengetahuan dan Ilmu Olah Keprajuritan'.
+        **Resimen Mahasiswa** (disingkat Menwa) adalah salah satu kekuatan sipil yang dilatih dan dipersiapkan untuk mempertahankan NKRI sebagai perwujudan Sistem Pertahanan dan Keamanan Rakyat Semesta (Sishankamrata). 
+        Menwa juga merupakan salah satu komponen warga negara yang mendapat pelatihan militer (unsur mahasiswa). Markas komando satuan Menwa bertempat di perguruan tinggi di kesatuan masing-masing yang anggotanya adalah mahasiswa yang berkedudukan di kampus tersebut. 
+        Anggota Menwa sendiri akan diberikan dan dibekali pelatihan ilmu militer seperti penggunaan senjata, taktik pertempuran, survival, terjun payung, bela diri militer, senam militer, penyamaran, navigasi dan sebagainya.
         """)
     
     # 2. Panca Dharma Satya & Mars
@@ -236,4 +236,4 @@ else:
 
 st.write("<br>", unsafe_allow_html=True)
 st.caption("© 2026 Resimen Mahasiswa Mahawarman - KI LM")
-st.caption("Developed by [Nama Kamu] | Cordevia Familia")
+st.caption("Developed by M. Dani. Setiawan | Cordevia Familia")

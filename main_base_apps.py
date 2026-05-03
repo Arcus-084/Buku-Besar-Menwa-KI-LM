@@ -207,7 +207,7 @@ if not st.session_state.authenticated:
         | Jabatan | Tugas Pokok |
         | :--- | :--- |
         | **DANMEN** | Pemimpin tertinggi operasi dan koordinasi resimen. |
-        | **KAMATRIK** | Pembina teknis dan administratif di tingkat institusi (Rektor). |
+        | **KAMATRIK** | Pembina teknis dan administratif di tingkat institusi. |
         | **DANKI** | Pemimpin operasional di tingkat Kompi. |
         | **STAF** | Pendukung administrasi, logistik, dan personel. |
         """)

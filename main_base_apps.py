@@ -99,7 +99,13 @@ if not st.session_state.authenticated:
 
     st.markdown("<h1 style='text-align: center; margin-bottom: 0;'>Portal Resmi MENWA KI LM</h1>", unsafe_allow_html=True)
     st.markdown("<h3 style='text-align: center; margin-top: 0; color: grey;'>Kompi Latifah Mubarokiyah</h3>", unsafe_allow_html=True)
-    
+    st.markdown("""
+    <div style="background-color: rgba(46, 59, 35, 0.5); padding: 10px; border-radius: 5px; border-left: 5px solid #ffd700;">
+        <marquee behavior="scroll" direction="left" style="color: #ffd700; font-weight: bold; font-family: sans-serif; font-size: 16px;">
+            Selamat Datang di Portal Resmi MENWA Mahawarman Kompi Latifah Mubarokiyah Batalyon VIII/Tarumanagara — Widya Castrena Dharma Siddha!
+        </marquee>
+    </div>
+""", unsafe_allow_html=True)
     st.write("---")
     
     # Menu Navigasi Sebelum Login

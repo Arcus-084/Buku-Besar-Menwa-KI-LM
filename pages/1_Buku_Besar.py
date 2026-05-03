@@ -137,36 +137,41 @@ if st.session_state.menu_internal == "input":
                     st.success(f"✅ Transaksi berhasil dicatat oleh {st.session_state.user_nama}!")
 
 elif st.session_state.menu_internal == "laporan":
-    st.subheader("📊 Ringkasan Saldo Organisasi")
-    
-    recent_logs = supabase.table("transactions").select("*, accounts(account_name)").order("date", desc=True).execute()
+    # --- DI DALAM BAGIAN elif st.session_state.menu_internal == "laporan": ---
 
-    if recent_logs.data:
-        df_all = pd.DataFrame(recent_logs.data)
-        
-        # Hitung Metrik
-        t_masuk = df_all[df_all['type'] == 'debit']['amount'].sum()
-        t_keluar = df_all[df_all['type'] == 'kredit']['amount'].sum()
-        saldo_total = t_masuk - t_keluar
-        
-        s1, s2, s3 = st.columns(3)
-        s1.metric("Total Masuk", format_rupiah(t_masuk))
-        s2.metric("Total Keluar", format_rupiah(t_keluar))
-        s3.metric("Saldo Akhir", format_rupiah(saldo_total))
-        
-        st.write("#### 📝 Riwayat 10 Transaksi Terakhir")
-        df_display = df_all.head(10).copy()
-        df_display['Kategori'] = df_display['accounts'].apply(lambda x: x['account_name'] if x else "Tanpa Akun")
-        df_display['Nominal'] = df_display['amount'].apply(format_rupiah)
-        
-        # Tampilkan tabel yang lebih rapi
-        st.dataframe(
-            df_display[['date', 'Kategori', 'description', 'Nominal', 'type']],
-            use_container_width=True,
-            hide_index=True
-        )
-    else:
-        st.info("Belum ada data transaksi yang tercatat.")
+st.subheader("📊 Ringkasan Saldo")
+
+# Ambil data transaksi termasuk kolom operator_nbp dan created_at
+recent_logs = supabase.table("transactions").select("*, accounts(account_name)").order("created_at", desc=True).execute()
+
+if recent_logs.data:
+    df_all = pd.DataFrame(recent_logs.data)
+    
+    # ... (bagian metrik Saldo tetap sama) ...
+
+    st.write("#### 📝 Riwayat Transaksi Lengkap")
+    df_display = df_all.copy()
+    
+    # Merapikan tampilan kolom
+    df_display['Kategori'] = df_display['accounts'].apply(lambda x: x['account_name'] if x else "N/A")
+    df_display['Nominal'] = df_display['amount'].apply(format_rupiah)
+    
+    # Mengubah created_at menjadi format waktu yang enak dibaca
+    df_display['Waktu Input'] = pd.to_datetime(df_display['created_at']).dt.strftime('%d/%m/%Y %H:%M')
+    
+    # Menampilkan tabel dengan kolom 'operator_nbp'
+    st.dataframe(
+        df_display[['Waktu Input', 'Kategori', 'description', 'Nominal', 'type', 'operator_nbp']],
+        column_config={
+            "Waktu Input": "Tanggal & Jam",
+            "operator_nbp": "ID Operator (NBP)",
+            "description": "Keterangan"
+        },
+        use_container_width=True,
+        hide_index=True
+    )
+else:
+    st.info("Belum ada data transaksi.")
 
 # Footer Copyright
 st.write("---")

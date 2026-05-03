@@ -101,9 +101,8 @@ with st.container():
                     st.rerun()
                 else:
                     st.error("Gagal Login. Periksa kembali NBP dan Password Anda.")
-
-    st.write("---")
-    st.caption("© 2026 Resimen Mahasiswa Mahawarman - KI LM")
+        st.write("---")
+        st.caption("© 2026 Resimen Mahasiswa Mahawarman - KI LM")
 else:
     # TAMPILAN DASHBOARD SETELAH LOGIN
     st.title("🚀 Dashboard Operasional")

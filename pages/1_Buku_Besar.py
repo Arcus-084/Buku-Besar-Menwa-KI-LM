@@ -112,7 +112,7 @@ else:
             col1, col2 = st.columns(2)
             with col1:
                 date = st.date_input("Tanggal Transaksi")
-                amount = st.number_input("Nominal (Rp)", min_value=0, step=1000)
+                amount = st.number_input("Nominal (Rp)", min_value=1000, step=1000)
                 evidence_file = st.file_uploader("Upload Bukti", type=['png', 'jpg', 'jpeg'])
             with col2:
                 selected_account_name = st.selectbox("Pilih Kategori Akun", list(account_options.keys()))

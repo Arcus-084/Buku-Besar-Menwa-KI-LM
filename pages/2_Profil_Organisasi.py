@@ -139,4 +139,4 @@ for i in range(4):
 # 6. FOOTER
 st.write("<br><br>", unsafe_allow_html=True)
 st.caption("© 2026 Resimen Mahasiswa Mahawarman - KI LM")
-st.caption("Developed by [Nama Kamu] | [Nama Grup]")
+st.caption("Developed by Muhammad Dani Setiawan | Cordevia Familia")

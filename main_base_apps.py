@@ -89,22 +89,14 @@ def login_user(nbp, password):
 if not st.session_state.authenticated:
     # Masukkan kode ini tepat di atas judul "Portal Resmi MENWA"
     st.markdown(
-        """
-        <div style="display: flex; justify-content: center; align-items: center; gap: 20px; margin-bottom: 20px; flex-wrap: nowrap;">
-            <!-- Logo Kampus 1 -->
-            <img src="https://ygkqeydetmlsgwmdglyk.supabase.co/storage/v1/object/public/Logo%20Orgnisasi/Institut%20Agama%20Islam%20Latifah%20Mubarokiyah,%20Pondok%20Pesantren%20Suryalaya%20Tasikmalaya.png" 
-                 width="65" style="object-fit: contain;">
-            
-            <!-- Logo MENWA (Pusat/Tengah) -->
-            <img src="https://ygkqeydetmlsgwmdglyk.supabase.co/storage/v1/object/public/Logo%20Orgnisasi/MENWA_KI_LM__1__page-0001-removebg-preview%20(1).png" 
-                 width="100" style="object-fit: contain;">
-            
-            <!-- Logo Kampus 2 -->
-            <img src="https://ygkqeydetmlsgwmdglyk.supabase.co/storage/v1/object/public/Logo%20Orgnisasi/Sekolah%20Tinggi%20Ilmu%20Ekonomi%20Latifah%20Mubarokiyah.png" 
-                 width="65" style="object-fit: contain;">
-        </div>
-        """, 
-        unsafe_allow_html=True)
+    f"""
+    <div style="display: flex; justify-content: center; align-items: center; gap: 20px; margin-bottom: 20px;">
+        <img src="https://ygkqeydetmlsgwmdglyk.supabase.co/storage/v1/object/public/Logo%20Orgnisasi/Institut%20Agama%20Islam%20Latifah%20Mubarokiyah,%20Pondok%20Pesantren%20Suryalaya%20Tasikmalaya.png" width="65">
+        <img src="https://ygkqeydetmlsgwmdglyk.supabase.co/storage/v1/object/public/Logo%20Orgnisasi/MENWA_KI_LM__1__page-0001-removebg-preview%20(1).png" width="100">
+        <img src="https://ygkqeydetmlsgwmdglyk.supabase.co/storage/v1/object/public/Logo%20Orgnisasi/Sekolah%20Tinggi%20Ilmu%20Ekonomi%20Latifah%20Mubarokiyah.png" width="65">
+    </div>
+    """, 
+    unsafe_allow_html=True)
 
     st.markdown("<h1 style='text-align: center; margin-bottom: 0;'>Portal Resmi MENWA KI LM</h1>", unsafe_allow_html=True)
     st.markdown("<h3 style='text-align: center; margin-top: 0; color: grey;'>Kompi Latifah Mubarokiyah</h3>", unsafe_allow_html=True)

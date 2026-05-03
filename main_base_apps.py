@@ -132,7 +132,7 @@ if not st.session_state.authenticated:
             1. Kami adalah Mahasiswa warga negara Negara Kesatuan Republik Indonesia yang berdasarkan Pancasila
             2. Kami adalah Mahasiswa yang sadar akan tanggung jawab serta kehormatan akan pembelaan negara dan tidak mengenal menyerah
             3. Kami putra Indonesia yang berjiwa kesatria dan bertaqwa kepa Tuhan Yang Maha Esa serta membela kejujuran, kebenaran dan keadilan
-            4. Kami adalah Mahasiswa yang menjunjung tinggi nama kehormatan Garba Ilmiah dan sadar akan haridepan Bangsa dan Negara
+            4. Kami adalah Mahasiswa yang menjunjung tinggi nama kehormatan Garba Ilmiah dan sadar akan hari depan Bangsa dan Negara
             5. Kami adalah Mahasiswa yang memegang teguh disiplin lahir dan bathin, percaya pada diri sendiri dan mengutamakan kepentingan nasional diatas kepentingan pribadi maupun golongan
             """)
     

@@ -92,19 +92,32 @@ st.markdown(
 
 # 5. SUSUNAN HIERARKI (Jalur Komando Online)
 
-# TIER 1: PEMBINA & KAMATRIK
-st.markdown('<div class="tier-header">UNSUR PIMPINAN & PEMBINA</div>', unsafe_allow_html=True)
-t1_c1, t1_c2 = st.columns(2)
-with t1_c1:
-    display_member("PEMBINA (DOSEN)", "Nama Dosen Pembina", "NIDN. 0001XXX")
-with t1_c2:
-    display_member("KAMATRIK", "Nama Kamatrik", "NBP. XX.XXX.XX")
+# TIER 1: PUNCAK KOMANDO (DANMEN)
+st.markdown('<div class="tier-header">KOMANDO TERTINGGI</div>', unsafe_allow_html=True)
+_, t1_mid, _ = st.columns([1, 1.5, 1])
+with t1_mid:
+    # Danmen sebagai pucuk pimpinan resimen
+    display_member("DANMEN", "Nama Danmen", "NBP. XX.XXX.XX")
 
-# TIER 2: KASMATRIK
-st.markdown('<div class="tier-header">KOMANDO MARKAS</div>', unsafe_allow_html=True)
-_, t2_mid, _ = st.columns([1, 1.5, 1])
-with t2_mid:
-    display_member("KASMATRIK", "Nama Kasmatrik", "NBP. XX.XXX.XX")
+# TIER 2: PIMPINAN SATUAN (REKTOR & WAREK)
+st.markdown('<div class="tier-header">PIMPINAN INSTITUSI (KAMATRIK & KASMATRIK)</div>', unsafe_allow_html=True)
+t2_c1, t2_c2 = st.columns(2)
+with t2_c1:
+    # Kamatrik sebagai Rektor IAILM
+    display_member("KAMATRIK", "Nama Rektor", "NBP. XX.XXX.XX")
+with t2_c2:
+    # Kasmatrik sebagai Warek 3 STIELM
+    display_member("KASMATRIK", "Nama Warek 3", "NBP. XX.XXX.XX")
+
+# TIER 3: DEWAN PEMBINA (UNSUR DOSEN)
+st.markdown('<div class="tier-header">STAF PEMBINA (UNSUR DOSEN)</div>', unsafe_allow_html=True)
+p_col1, p_col2, p_col3 = st.columns(3)
+with p_col1:
+    display_member("PEMBINA I", "Dosen Pembina 1", "NIDN. XXXX")
+with p_col2:
+    display_member("PEMBINA II", "Dosen Pembina 2", "NIDN. XXXX")
+with p_col3:
+    display_member("PEMBINA III", "Dosen Pembina 3", "NIDN. XXXX")
 
 # TIER 3: PELAKSANA (DANKI, WADANKI, PELATIH)
 st.markdown('<div class="tier-header">UNSUR PELAKSANA</div>', unsafe_allow_html=True)

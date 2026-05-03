@@ -8,6 +8,20 @@ if not st.session_state.get("authenticated", False):
 
 st.set_page_config(page_title="Struktur Organisasi - KI LM", layout="wide")
 
+# --- KODE PAKSA HAPUS SIDEBAR ---
+st.markdown("""
+    <style>
+        /* Menghilangkan navigasi di sidebar */
+        [data-testid="stSidebarNav"] {display: none !important;}
+        
+        /* Menghilangkan garis pembatas sidebar (opsional) */
+        [data-testid="stSidebar"] {display: none !important;}
+        
+        /* Menyesuaikan lebar halaman agar tetap di tengah */
+        .main .block-container {max-width: 800px; padding-top: 2rem;}
+    </style>
+""", unsafe_allow_html=True)
+
 # 2. CSS CUSTOM (Tema Hard File Online)
 st.markdown("""
     <style>

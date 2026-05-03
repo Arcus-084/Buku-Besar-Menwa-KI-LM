@@ -67,7 +67,24 @@ if not st.session_state.authenticated:
     st.markdown("<h3 style='text-align: center; margin-top: 0; color: grey;'>Kompi Latifah Mubarokiyah</h3>", unsafe_allow_html=True)
     
     st.write("---")
+    st.write("### Pilih Menu Utama")
+    m1, m2 = st.columns(2)
     
+    with m1:
+        if st.button("Sejarah Menwa", use_container_width=True):
+            st.session_state.menu = "sejarah"
+    with m2:
+        if st.button("📊 Catatan Terakhir", use_container_width=True):
+            st.session_state.menu = "laporan"
+
+    st.divider()
+    # --- UI TAMPILAN SEJARAH ---
+    if st.session_state.menu == "sejarah":
+        st.title("📜 Sejarah Menwa MAHAWARMAN")
+        st.markdown("""**Resimen Mahasiswa** (disingkat Menwa) adalah salah satu kekuatan sipil yang dilatih dan dipersiapkan untuk mempertahankan NKRI sebagai perwujudan Sistem Pertahanan dan Keamanan Rakyat Semesta (Sishankamrata). 
+        Menwa juga merupakan salah satu komponen warga negara yang mendapat pelatihan militer (unsur mahasiswa). Markas komando satuan Menwa bertempat di perguruan tinggi di kesatuan masing-masing yang anggotanya adalah mahasiswa yang berkedudukan di kampus tersebut. 
+        Menwa merupakan komponen cadangan pertahanan negara yang diberikan pelatihan ilmu militer seperti penggunaan senjata, taktik pertempuran, survival, terjun payung, bela diri militer, senam militer, penyamaran, navigasi dan sebagainya.""")
+    st.write("---")
     with st.container():
         st.info("Silakan login dengan Nomor Badan Pokok (NBP) Anda.")
         with st.form("login_form"):

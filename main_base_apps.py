@@ -146,7 +146,7 @@ if not st.session_state.authenticated:
             Menuju Cita, Membangun Bangsa
             Tanpa Pamrih Berbakti 'Tuk Negara*
             
-            *Mari Tunjukan Pengabdian
+            *Hai Tunjukanlah Pengabdian
             dan Kembangkanlah Citra
             di Masyarakat, Setiap Saat
             Amalkanlah Ilmu yang Bermanfaat*

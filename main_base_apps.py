@@ -74,10 +74,10 @@ if not st.session_state.authenticated:
         if st.button("Sejarah Menwa", use_container_width=True):
             st.session_state.menu = "sejarah"
     with m2:
-        if st.button("📊 Catatan Terakhir", use_container_width=True):
-            st.session_state.menu = "laporan"
+        if st.button("Login", use_container_width=True):
+            st.session_state.menu = "login"
 
-    st.divider()
+ 
     # --- UI TAMPILAN SEJARAH ---
     if st.session_state.menu == "sejarah":
         st.title("📜 Sejarah Menwa MAHAWARMAN")

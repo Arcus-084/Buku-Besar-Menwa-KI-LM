@@ -112,12 +112,49 @@ st.write("---")
 
 # D. Konten Berdasarkan Status Login
 if not st.session_state.authenticated:
-    # --- TAMPILAN PUBLIK ---
-    st.write("### 📜 Informasi Satuan")
-    st.markdown("""
-    Kompi Latifah Mubarokiyah merupakan bagian dari Resimen Mahasiswa Mahawarman Jawa Barat yang berpangkalan di IAILM dan STIELM Suryalaya. 
-    Portal ini menyediakan informasi profil organisasi secara publik dan manajemen internal bagi anggota aktif.
-    """)
+    # --- BAGIAN INFORMASI PUBLIK (Tambahkan di app.py / main_base_apps.py) ---
+
+    st.write("### 📚 Informasi Publik")
+    
+    # 1. Sejarah Menwa
+    with st.expander("📜 Sejarah Menwa Mahawarman"):
+        st.markdown("""
+        **Resimen Mahasiswa Mahawarman** merupakan bagian dari sejarah perjuangan bangsa. Dibentuk pada masa konfrontasi sebagai wujud pembelaan negara oleh mahasiswa. 
+        
+        *Widya Castrena Dharma Siddha* adalah semboyan kami yang berarti 'Penyempurnaan Pengabdian dengan Ilmu Pengetahuan dan Ilmu Olah Keprajuritan'.
+        """)
+    
+    # 2. Panca Dharma Satya & Mars
+    col_info1, col_info2 = st.columns(2)
+    with col_info1:
+        with st.expander("🛡️ Panca Dharma Satya"):
+            st.info("""
+            1. Kami adalah Mahasiswa Indonesia yang beriman dan bertaqwa...
+            2. Kami adalah Mahasiswa Indonesia yang sadar akan hak dan kewajiban...
+            3. Kami adalah Mahasiswa Indonesia yang mengutamakan kepentingan negara...
+            *(dan seterusnya)*
+            """)
+    
+    with col_info2:
+        with st.expander("🎶 Mars Mahawarman"):
+            st.markdown("""
+            *Lirik Mars Mahawarman:*
+            "Resimen Mahasiswa Mahawarman, 
+            Wadah perjuangan mahasiswa... 
+            Bangkitlah serentak, 
+            Bela nusa dan bangsa!"
+            """)
+    
+    # 3. Tugas dan Jabatan
+    with st.expander("🪖 Tugas & Tanggung Jawab Jabatan"):
+        st.markdown("""
+        | Jabatan | Tugas Pokok |
+        | :--- | :--- |
+        | **DANMEN** | Pemimpin tertinggi operasi dan koordinasi resimen. |
+        | **KAMATRIK** | Pembina teknis dan administratif di tingkat institusi (Rektor). |
+        | **DANKI** | Pemimpin operasional di tingkat Kompi. |
+        | **STAF** | Pendukung administrasi, logistik, dan personel. |
+        """)
     
     # E. FOOTER & PINTU LOGIN RAHASIA
     st.write("<br><br><br>", unsafe_allow_html=True)

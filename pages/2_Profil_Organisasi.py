@@ -1,13 +1,5 @@
 import streamlit as st
 
-# 1. PROTEKSI HALAMAN & KONFIGURASI
-# Mengecek apakah user sudah login dari halaman utama
-if not st.session_state.get("authenticated", False):
-    st.error("Silakan login terlebih dahulu di halaman utama untuk mengakses data personil.")
-    st.stop()
-
-st.set_page_config(page_title="Struktur Organisasi - KI LM", layout="wide")
-
 # --- KODE PAKSA HAPUS SIDEBAR ---
 st.markdown("""
     <style>
@@ -21,6 +13,21 @@ st.markdown("""
         .main .block-container {max-width: 800px; padding-top: 2rem;}
     </style>
 """, unsafe_allow_html=True)
+
+# 1. PROTEKSI HALAMAN & KONFIGURASI
+# --- KODE GEMBOK ---
+if "authenticated" not in st.session_state or not st.session_state.authenticated:
+    st.warning("⚠️ Akses Terbatas! Silakan login di halaman utama menggunakan NBP.")
+    # Tombol untuk memudahkan kembali ke halaman login
+    if st.button("Kembali ke Login"):
+        st.switch_page("main_base_apps.py")
+    st.stop() # Menghentikan sisa kode di bawah agar tidak jalan
+# -------------------
+st.write("---")
+if st.button("⬅️ Kembali ke Menu Utama"):
+    st.switch_page("main_base_apps.py")
+
+
 
 # 2. CSS CUSTOM (Tema Hard File Online)
 st.markdown("""

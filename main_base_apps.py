@@ -88,7 +88,7 @@ def login_user(nbp, password):
 # A. JIKA BELUM LOGIN
 if not st.session_state.authenticated:
     # Masukkan kode ini tepat di atas judul "Portal Resmi MENWA"
-       st.markdown(
+    st.markdown(
         """
         <div style="display: flex; justify-content: center; align-items: center; gap: 20px; margin-bottom: 20px; flex-wrap: nowrap;">
             <!-- Logo Kampus 1 -->
@@ -104,8 +104,7 @@ if not st.session_state.authenticated:
                  width="65" style="object-fit: contain;">
         </div>
         """, 
-        unsafe_allow_html=True
-        )
+        unsafe_allow_html=True)
 
     st.markdown("<h1 style='text-align: center; margin-bottom: 0;'>Portal Resmi MENWA KI LM</h1>", unsafe_allow_html=True)
     st.markdown("<h3 style='text-align: center; margin-top: 0; color: grey;'>Kompi Latifah Mubarokiyah</h3>", unsafe_allow_html=True)

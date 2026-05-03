@@ -139,6 +139,7 @@ if not st.session_state.authenticated:
         with st.expander("🎶 Mars Mahawarman"):
             st.markdown("""
             **Lirik Mars Mahawarman:**
+            
             *Hai Satukanlah, padukanlah
             Senantiasa Langkah Kita
             Menuju Cita, Membangun Bangsa

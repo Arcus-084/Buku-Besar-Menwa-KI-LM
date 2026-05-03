@@ -1,66 +1,22 @@
 import streamlit as st
 from supabase import create_client, Client
 
-# 1. KONFIGURASI HALAMAN (Wajib paling atas, sebelum markdown/CSS)
+# 1. KONFIGURASI HALAMAN
 st.set_page_config(
-    page_title="Portal MENWA KI LM", 
+    page_title="Portal Resmi MENWA KI LM", 
     page_icon="https://ygkqeydetmlsgwmdglyk.supabase.co/storage/v1/object/public/Logo%20Orgnisasi/MENWA_KI_LM__1__page-0001-removebg-preview%20(1).png", 
     layout="centered"
 )
-
-# --- KODE PAKSA HAPUS SIDEBAR ---
-st.markdown("""
-    <style>
-        [data-testid="stSidebarNav"] {display: none !important;}
-        [data-testid="stSidebar"] {display: none !important;}
-        .main .block-container {max-width: 800px; padding-top: 2rem;}
-    </style>
-""", unsafe_allow_html=True)
-st.markdown("""
-    <style>
-        /* 1. Mengubah Background Utama */
-        .stApp {
-            background-color: #0e1117; /* Warna gelap navy-grey */
-            background-image: radial-gradient(circle at 20% 30%, #1d2b1a 0%, #0e1117 100%); /* Ada sentuhan gradasi hijau army gelap */
-        }
-
-        /* 2. Mengubah Warna Teks agar Kontras */
-        h1, h2, h3, p, span {
-            color: #e0e0e0 !important;
-            font-family: 'Inter', sans-serif;
-        }
-
-        /* 3. Mempercantik Card/Kontainer Login */
-        [data-testid="stForm"] {
-            background-color: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 15px;
-            padding: 30px;
-        }
-
-        /* 4. Mengubah Warna Tombol agar lebih 'Komando' */
-        .stButton>button {
-            background-color: #2e3b23 !important; /* Hijau Army */
-            color: #f1f1f1 !important;
-            border-radius: 8px !important;
-            border: 1px solid #4a5d3a !important;
-            transition: 0.3s;
-        }
-        
-        .stButton>button:hover {
-            background-color: #3d4f2f !important;
-            border-color: #ffd700 !important; /* Glow kuning emas pas di-hover */
-        }
-    </style>
-""", unsafe_allow_html=True)
 
 # 2. INISIALISASI SESSION STATE
 if "authenticated" not in st.session_state:
     st.session_state.authenticated = False
 if "user_nbp" not in st.session_state:
     st.session_state.user_nbp = None
-if "menu" not in st.session_state:
-    st.session_state.menu = "home" # Tambahkan ini agar tidak error saat tombol ditekan
+if "user_nama" not in st.session_state:
+    st.session_state.user_nama = None
+if "show_login" not in st.session_state:
+    st.session_state.show_login = False
 
 # 3. KONEKSI SUPABASE
 try:
@@ -68,111 +24,150 @@ try:
     key = st.secrets["SUPABASE_KEY"]
     supabase: Client = create_client(url, key)
 except Exception as e:
-    st.error("Konfigurasi Database (Secrets) belum lengkap.")
+    st.error("Konfigurasi Database belum lengkap di Secrets.")
     st.stop()
 
-# 4. FUNGSI LOGIKA LOGIN
-def login_user(nbp, password):
-    email_internal = f"{nbp}@menwa.com"
-    try:
-        response = supabase.auth.sign_in_with_password({
-            "email": email_internal, 
-            "password": password
-        })
-        return response
-    except Exception:
-        return None
+# 4. CSS CUSTOM (Gabungan Tema Gelap & Marquee)
+st.markdown("""
+    <style>
+        /* Sembunyikan Sidebar Default untuk Publik */
+        [data-testid="stSidebarNav"] {display: none !important;}
+        
+        .stApp {
+            background-color: #0e1117;
+            background-image: radial-gradient(circle at 20% 30%, #1d2b1a 0%, #0e1117 100%);
+        }
+        
+        h1, h2, h3, p, span { color: #e0e0e0 !important; font-family: 'Inter', sans-serif; }
 
-# --- LOGIKA TAMPILAN ---
+        /* Marquee Style */
+        .marquee-box {
+            background-color: rgba(46, 59, 35, 0.5); 
+            padding: 10px; 
+            border-radius: 5px; 
+            border-left: 5px solid #ffd700;
+            margin: 20px 0;
+        }
 
-# A. JIKA BELUM LOGIN
-if not st.session_state.authenticated:
-    # Masukkan kode ini tepat di atas judul "Portal Resmi MENWA"
-    st.markdown(
-    f"""
+        /* Card Login */
+        [data-testid="stForm"] {
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+        }
+
+        /* Tombol Komando */
+        .stButton>button {
+            background-color: #2e3b23 !important;
+            color: #f1f1f1 !important;
+            border-radius: 8px !important;
+            transition: 0.3s;
+        }
+        .stButton>button:hover {
+            border-color: #ffd700 !important;
+            color: #ffd700 !important;
+        }
+    </style>
+""", unsafe_allow_html=True)
+
+# --- SIDEBAR (DINAMIS) ---
+with st.sidebar:
+    st.markdown("### 🪖 Menu Navigasi")
+    st.page_link("app.py", label="Beranda", icon="🏠")
+    st.page_link("pages/2_Profil_Organisasi.py", label="Struktur Organisasi", icon="📜")
+    
+    if st.session_state.authenticated:
+        st.write("---")
+        st.markdown("### 🔐 Internal Komando")
+        st.page_link("pages/1_Buku_Besar.py", label="Buku Besar Keuangan", icon="💰")
+        if st.button("🚪 Keluar Sistem", use_container_width=True):
+            st.session_state.authenticated = False
+            st.rerun()
+
+# --- TAMPILAN UTAMA ---
+
+# A. Header Logo (Tiga Logo)
+st.markdown(
+    """
     <div style="display: flex; justify-content: center; align-items: center; gap: 20px; margin-bottom: 20px;">
         <img src="https://ygkqeydetmlsgwmdglyk.supabase.co/storage/v1/object/public/Logo%20Orgnisasi/Institut%20Agama%20Islam%20Latifah%20Mubarokiyah,%20Pondok%20Pesantren%20Suryalaya%20Tasikmalaya.png" width="65">
         <img src="https://ygkqeydetmlsgwmdglyk.supabase.co/storage/v1/object/public/Logo%20Orgnisasi/MENWA_KI_LM__1__page-0001-removebg-preview%20(1).png" width="100">
         <img src="https://ygkqeydetmlsgwmdglyk.supabase.co/storage/v1/object/public/Logo%20Orgnisasi/Sekolah%20Tinggi%20Ilmu%20Ekonomi%20Latifah%20Mubarokiyah.png" width="65">
     </div>
-    """, 
-    unsafe_allow_html=True)
+    """, unsafe_allow_html=True)
 
-    st.markdown("<h1 style='text-align: center; margin-bottom: 0;'>Portal Resmi MENWA KI LM</h1>", unsafe_allow_html=True)
-    st.markdown("<h3 style='text-align: center; margin-top: 0; color: grey;'>Kompi Latifah Mubarokiyah</h3>", unsafe_allow_html=True)
-    st.markdown("""
-    <div style="background-color: rgba(46, 59, 35, 0.5); padding: 10px; border-radius: 5px; border-left: 5px solid #ffd700;">
-        <marquee behavior="scroll" direction="left" style="color: #ffd700; font-weight: bold; font-family: sans-serif; font-size: 16px;">
-            Selamat Datang di Portal Resmi MENWA Mahawarman Kompi Latifah Mubarokiyah Batalyon VIII/Tarumanagara — Widya Castrena Dharma Siddha!
+# B. Marquee
+st.markdown("""
+    <div class="marquee-box">
+        <marquee scrollamount="7" style="color: #ffd700; font-weight: bold;">
+            WIDYA CASTRENA DHARMA SIDDHA — SELAMAT DATANG DI PORTAL RESMI MENWA MAHAWARMAN KOMPI LATIFAH MUBAROKIYAH — BERSAMA KITA KUAT, MENGABDI UNTUK NEGERI!
         </marquee>
     </div>
 """, unsafe_allow_html=True)
-    st.write("---")
-    
-    # Menu Navigasi Sebelum Login
-    st.write("### Informasi Umum")
-    if st.button("📜 Baca Sejarah Menwa", use_container_width=True):
-        st.session_state.menu = "sejarah" if st.session_state.menu != "sejarah" else "home"
-    
-    if st.session_state.menu == "sejarah":
-        with st.expander("Klik untuk menutup Sejarah", expanded=True):
-            st.title("📜 Sejarah Menwa MAHAWARMAN")
-            st.markdown("""
-            **Resimen Mahasiswa** (disingkat Menwa) adalah salah satu kekuatan sipil yang dilatih dan dipersiapkan untuk mempertahankan NKRI sebagai perwujudan Sistem Pertahanan dan Keamanan Rakyat Semesta (Sishankamrata). 
-            
-            Menwa merupakan komponen cadangan pertahanan negara yang diberikan pelatihan ilmu militer seperti penggunaan senjata, taktik pertempuran, survival, terjun payung, dan navigasi.
-            """)
-    
-    st.write("---")
 
-    # Form Login
-    with st.container():
-        st.info("Silakan login dengan Nomor Badan Pokok (NBP) Anda.")
-        with st.form("login_form"):
-            nbp_input = st.text_input("Nomor Badan Pokok (NBP)", placeholder="Masukkan NBP Anda")
-            pass_input = st.text_input("Password", type="password")
-            btn_login = st.form_submit_button("Masuk ke Sistem", use_container_width=True)
-            
-            if btn_login:
-                nbp_clean = nbp_input.strip()
-                res = login_user(nbp_clean, pass_input)
-                
-                if res and res.user:
-                    st.session_state.authenticated = True
-                    st.session_state.user_nbp = nbp_clean
-                    st.success(f"Selamat bertugas, NBP {nbp_clean}!")
-                    st.rerun()
-                else:
-                    st.error("Gagal Login. Periksa kembali NBP dan Password Anda.")
+# C. Judul
+st.markdown("<h1 style='text-align: center;'>Portal Resmi MENWA KI LM</h1>", unsafe_allow_html=True)
+st.markdown("<h3 style='text-align: center; color: grey;'>Batalyon VIII/Tarumanagara</h3>", unsafe_allow_html=True)
+st.write("---")
 
+# D. Konten Berdasarkan Status Login
+if not st.session_state.authenticated:
+    # --- TAMPILAN PUBLIK ---
+    st.write("### 📜 Informasi Satuan")
+    st.markdown("""
+    Kompi Latifah Mubarokiyah merupakan bagian dari Resimen Mahasiswa Mahawarman Jawa Barat yang berpangkalan di IAILM dan STIELM Suryalaya. 
+    Portal ini menyediakan informasi profil organisasi secara publik dan manajemen internal bagi anggota aktif.
+    """)
+    
+    # E. FOOTER & PINTU LOGIN RAHASIA
+    st.write("<br><br><br>", unsafe_allow_html=True)
     st.write("---")
-    st.caption("© 2026 Resimen Mahasiswa Mahawarman - KI LM")
-    st.caption("Digital Production by Muhammad Dani Setiawan from Cordevia Familia")
+    _, col_login, _ = st.columns([1, 2, 1])
+    
+    with col_login:
+        if st.button("Sistem Manajemen Internal", type="secondary", use_container_width=True):
+            st.session_state.show_login = not st.session_state.show_login
 
-# B. JIKA SUDAH LOGIN (DASHBOARD)
+    if st.session_state.show_login:
+        with st.form("form_login"):
+            st.info("Otentikasi Personil (Gunakan NBP)")
+            nbp_in = st.text_input("NBP", placeholder="Contoh: 2026.XX.XXX")
+            pass_in = st.text_input("Password", type="password")
+            if st.form_submit_button("Masuk", use_container_width=True):
+                # Logika cek ke tabel data_anggota
+                try:
+                    res = supabase.table("data_anggota").select("*").eq("nbp", nbp_in).execute()
+                    if res.data and res.data[0]['password'] == pass_in:
+                        st.session_state.authenticated = True
+                        st.session_state.user_nbp = nbp_in
+                        st.session_state.user_nama = res.data[0]['nama']
+                        st.session_state.show_login = False
+                        st.success(f"Selamat bertugas, {res.data[0]['nama']}!")
+                        st.rerun()
+                    else:
+                        st.error("Kredensial salah atau tidak terdaftar.")
+                except:
+                    st.error("Gangguan koneksi database.")
+
 else:
-    st.title("🚀 Dashboard Operasional")
-    st.subheader(f"Selamat bertugas, NBP {st.session_state.user_nbp}")
-    st.write("---")
-
-    col1, col2 = st.columns(2)
-
-    with col1:
-        st.markdown("### 📊 Administrasi")
-        st.write("Kelola Buku Besar & Keuangan.")
-        if st.button("Buka Buku Besar", use_container_width=True, type="primary"):
-            st.switch_page("pages/1_Buku_Besar.py")
-            
-    with col2:
-        st.markdown("### 🪖 Personil")
-        st.write("Data Anggota & Struktur.")
-        if st.button("Buka Profil Anggota", use_container_width=True):
-            st.switch_page("pages/2_Profil_Organisasi.py")
-            
-    st.write("---")
+    # --- TAMPILAN DASHBOARD (SETELAH LOGIN) ---
+    st.success(f"✅ Terkoneksi sebagai: {st.session_state.user_nama} ({st.session_state.user_nbp})")
     
-    if st.button("🚪 Logout / Keluar"):
-        st.session_state.authenticated = False
-        st.session_state.user_nbp = None
-        st.session_state.menu = "home"
-        st.rerun()
+    col1, col2 = st.columns(2)
+    with col1:
+        with st.container(border=True):
+            st.markdown("#### 💰 Keuangan")
+            st.write("Akses Buku Besar Kompi.")
+            if st.button("Buka Buku Besar", use_container_width=True):
+                st.switch_page("pages/1_Buku_Besar.py")
+                
+    with col2:
+        with st.container(border=True):
+            st.markdown("#### 🪖 Personil")
+            st.write("Lihat Struktur Organisasi.")
+            if st.button("Lihat Struktur", use_container_width=True):
+                st.switch_page("pages/2_Profil_Organisasi.py")
+
+st.write("<br>", unsafe_allow_html=True)
+st.caption("© 2026 Resimen Mahasiswa Mahawarman - KI LM")
+st.caption("Developed by [Nama Kamu] | Cordevia Familia")

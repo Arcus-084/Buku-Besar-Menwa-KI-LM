@@ -138,12 +138,39 @@ if not st.session_state.authenticated:
     with col_info2:
         with st.expander("🎶 Mars Mahawarman"):
             st.markdown("""
-            *Lirik Mars Mahawarman:*
-            "Resimen Mahasiswa Mahawarman, 
-            Wadah perjuangan mahasiswa... 
-            Bangkitlah serentak, 
-            Bela nusa dan bangsa!"
+            **Lirik Mars Mahawarman:**
+            *Hai Satukanlah, padukanlah
+            Senantiasa Langkah Kita
+            Menuju Cita, Membangun Bangsa
+            Tanpa Pamrih Berbakti 'Tuk Negara*
+            
+            *Mari Tunjukan Pengabdian
+            dan Kembangkanlah Citra
+            di Masyarakat, Setiap Saat
+            Amalkanlah Ilmu yang Bermanfaat*
+            
+            *Panca Dharma Satyalah Tekad Kita
+            dalam Mahawarman Kita di Bina
+            dengan Berlandaskan Jiwa Pancasila
+            Siap Menunjang Pola Hankamrata*
+            
+            *Hai Kobarkanlah, Kerahkanlah
+            Semangat K'Satria
+            Mari Berjuang, Terus Berjuang
+            Jayalah Mahawarman Sepanjang Masa*
+            
+            *Panca Dharma Satyalah Tekad Kita
+            dalam Mahawarman Kita di Bina
+            dengan Berlandaskan Jiwa Pancasila
+            Siap Menunjang Pola Hankamrata*
+            
+            *Hai Kobarkanlah, Kerahkanlah
+            Semangat K'Satria
+            Mari Berjuang, Terus Berjuang
+            Jayalah Mahawarman Sepanjang Masa*
             """)
+            audio_link = "https://ygkqeydetmlsgwmdglyk.supabase.co/storage/v1/object/public/Logo%20Orgnisasi/MARS%20MAHAWARMAN%202022%20-%20Hendrik%20Hapu%20Hinggiranja.mp3" 
+            st.audio(audio_link, format="audio/mp3")
     
     # 3. Tugas dan Jabatan
     with st.expander("🪖 Tugas & Tanggung Jawab Jabatan"):

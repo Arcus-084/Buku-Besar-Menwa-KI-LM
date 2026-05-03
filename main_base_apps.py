@@ -114,14 +114,14 @@ col1, col2 = st.columns(2)
 with col1:
     st.markdown("### 📊 Administrasi")
     st.write("Kelola Buku Besar & Keuangan.")
-        if st.button("Buka Buku Besar", use_container_width=True, type="primary"):
-            st.switch_page("pages/1_Buku_Besar.py")
+    if st.button("Buka Buku Besar", use_container_width=True, type="primary"):
+        st.switch_page("pages/1_Buku_Besar.py")
             
 with col2:
     st.markdown("### 🪖 Personil")
     st.write("Data Anggota & Struktur.")
-        if st.button("Buka Profil Anggota", use_container_width=True):
-            st.switch_page("pages/2_Profil_Organisasi.py")
+    if st.button("Buka Profil Anggota", use_container_width=True):
+        st.switch_page("pages/2_Profil_Organisasi.py")
             
 st.write("---")
                 

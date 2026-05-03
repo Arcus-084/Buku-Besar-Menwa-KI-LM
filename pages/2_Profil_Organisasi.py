@@ -70,7 +70,6 @@ with st.sidebar:
     st.image(DEFAULT_IMG, width=100)
     if is_authenticated:
         st.markdown(f"### 🪖 Operator: \n**{user_nama}**")
-        st.markdown(\n`NBP: {user_nbp}`)
         st.page_link("pages/1_Buku_Besar.py", label="Buku Besar Keuangan", icon="💰")
     else:
         st.info("Mode Publik: Akses terbatas pada informasi umum.")

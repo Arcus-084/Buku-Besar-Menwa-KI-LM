@@ -1,27 +1,22 @@
 import streamlit as st
 
-# 1. PROTEKSI HALAMAN (Wajib paling atas)
-if "authenticated" not in st.session_state or not st.session_state.authenticated:
-    st.warning("⚠️ Akses Terbatas! Silakan login di halaman utama menggunakan NBP.")
-    if st.button("Kembali ke Login"):
-        st.switch_page("main_base_apps.py")
-    st.stop()
-
-# 2. KONFIGURASI HALAMAN
+# 1. KONFIGURASI HALAMAN (Wajib paling atas)
 st.set_page_config(
     page_title="Struktur Organisasi - KI LM",
     page_icon="🪖",
     layout="centered"
 )
 
-# 3. CSS CUSTOM (Tema Hard File Online & Sidebar Hider)
+# 2. LOGIKA STATUS LOGIN (Tanpa Proteksi Gembok)
+is_authenticated = st.session_state.get("authenticated", False)
+user_nama = st.session_state.get("user_nama", "Tamu Publik")
+user_nbp = st.session_state.get("user_nbp", "N/A")
+
+# 3. CSS CUSTOM
 st.markdown("""
     <style>
-        /* Menghilangkan navigasi default sidebar */
         [data-testid="stSidebarNav"] {display: none !important;}
-        
         .stApp { background-color: #0e1117; }
-        
         .tier-header {
             color: #ffd700;
             font-weight: bold;
@@ -32,7 +27,6 @@ st.markdown("""
             letter-spacing: 3px;
             font-family: 'Arial Black', sans-serif;
         }
-
         .member-card {
             background-color: #d1d1d1;
             border-left: 8px solid #2e3b23;
@@ -47,24 +41,6 @@ st.markdown("""
             justify-content: center;
             box-shadow: 0px 4px 15px rgba(0,0,0,0.5);
         }
-
-        .photo-container img {
-            border-radius: 5px;
-            border: 2px solid #808080;
-            object-fit: cover;
-            margin-bottom: 10px;
-            height: 120px;
-            width: 100px;
-        }
-
-        .role-title {
-            font-weight: 900;
-            font-size: 13px;
-            text-transform: uppercase;
-            border-bottom: 1px solid #808080;
-            margin-bottom: 5px;
-        }
-
         .name-title { font-size: 14px; font-weight: bold; color: #000 !important; }
         .nbp-sub { font-size: 11px; color: #444 !important; }
     </style>
@@ -75,85 +51,77 @@ DEFAULT_IMG = "https://ygkqeydetmlsgwmdglyk.supabase.co/storage/v1/object/public
 
 def display_member(jabatan, nama, nbp, foto_url=None):
     img_path = foto_url if foto_url else DEFAULT_IMG
+    # Sembunyikan NBP jika bukan anggota yang login (Opsional untuk privasi)
+    display_nbp = nbp if is_authenticated else "Terproteksi"
+    
     st.markdown(f"""
         <div class="member-card">
-            <div class="photo-container">
-                <img src="{img_path}">
+            <div style="display: flex; justify-content: center; margin-bottom: 10px;">
+                <img src="{img_path}" style="border-radius: 5px; border: 2px solid #808080; height: 120px; width: 100px; object-fit: cover;">
             </div>
-            <div class="role-title">{jabatan}</div>
+            <div style="font-weight: 900; font-size: 13px; text-transform: uppercase; border-bottom: 1px solid #808080; margin-bottom: 5px;">{jabatan}</div>
             <div class="name-title">{nama}</div>
-            <div class="nbp-sub">NBP: {nbp}</div>
+            <div class="nbp-sub">NBP: {display_nbp}</div>
         </div>
     """, unsafe_allow_html=True)
 
 # 5. SIDEBAR DINAMIS
 with st.sidebar:
     st.image(DEFAULT_IMG, width=100)
-    st.markdown(f"### 🪖 Operator Aktif\n**{st.session_state.user_nama}**\n`NBP: {st.session_state.user_nbp}`")
+    if is_authenticated:
+        st.markdown(f"### 🪖 Operator: \n**{user_nama}**")
+        st.page_link("pages/1_Buku_Besar.py", label="Buku Besar Keuangan", icon="💰")
+    else:
+        st.info("Mode Publik: Akses terbatas pada informasi umum.")
+    
     st.divider()
     st.page_link("main_base_apps.py", label="Kembali ke Beranda", icon="🏠")
-    st.page_link("pages/1_Buku_Besar.py", label="Buku Besar Keuangan", icon="💰")
-    if st.button("🚪 Keluar Sistem", use_container_width=True):
-        st.session_state.authenticated = False
-        st.switch_page("main_base_apps.py")
+    
+    if is_authenticated:
+        if st.button("🚪 Logout", use_container_width=True):
+            st.session_state.authenticated = False
+            st.rerun()
 
-# 6. HEADER UTAMA
+# 6. KONTEN STRUKTUR (Dapat Dilihat Semua Orang)
 st.markdown(
     """
-    <div style="display: flex; justify-content: center; align-items: center; gap: 25px; margin-bottom: 30px;">
+    <div style="text-align: center; margin-bottom: 30px;">
         <img src="https://ygkqeydetmlsgwmdglyk.supabase.co/storage/v1/object/public/Logo%20Orgnisasi/MENWA_KI_LM__1__page-0001-removebg-preview%20(1).png" width="90">
-        <div>
-            <h1 style='color: white; margin: 0;'>STRUKTUR ORGANISASI</h1>
-            <p style='color: #ffd700; margin: 0;'>KOMPI LATIFAH MUBAROKIYAH - TA 2025/2026</p>
-        </div>
+        <h1 style='color: white; margin: 10px 0 0 0;'>STRUKTUR ORGANISASI</h1>
+        <p style='color: #ffd700;'>KOMPI LATIFAH MUBAROKIYAH - TA 2025/2026</p>
     </div>
     """, unsafe_allow_html=True)
 
-# 7. SUSUNAN HIERARKI
-
-# TIER 1: PUNCAK KOMANDO
+# TIER 1: DANMEN
 st.markdown('<div class="tier-header">KOMANDO TERTINGGI</div>', unsafe_allow_html=True)
-_, t1_mid, _ = st.columns([1, 1.5, 1])
-with t1_mid:
-    display_member("DANMEN", "Nama Danmen", "NBP. XX.XXX.XX")
+_, t1, _ = st.columns([1, 1.5, 1])
+with t1: display_member("DANMEN", "Nama Danmen", "XX.XXX.XX")
 
-# TIER 2: PIMPINAN SATUAN (REKTOR & WAREK)
-st.markdown('<div class="tier-header">PIMPINAN INSTITUSI (KAMATRIK & KASMATRIK)</div>', unsafe_allow_html=True)
-t2_c1, t2_c2 = st.columns(2)
-with t2_c1:
-    display_member("KAMATRIK (REKTOR IAILM)", "Nama Rektor", "NBP. XX.XXX.XX")
-with t2_c2:
-    display_member("KASMATRIK (WAREK 3 STIELM)", "Nama Warek 3", "NBP. XX.XXX.XX")
+# TIER 2: REKTOR & WAREK (KAMATRIK & KASMATRIK)
+st.markdown('<div class="tier-header">PIMPINAN INSTITUSI</div>', unsafe_allow_html=True)
+t2_1, t2_2 = st.columns(2)
+with t2_1: display_member("KAMATRIK", "Nama Kamatrik", "XX.XXX.XX")
+with t2_2: display_member("KASMATRIK", "Nama Kasmatrik", "XX.XXX.XX")
 
-# TIER 3: DEWAN PEMBINA (UNSUR DOSEN)
-st.markdown('<div class="tier-header">STAF PEMBINA (UNSUR DOSEN)</div>', unsafe_allow_html=True)
-p_col1, p_col2, p_col3 = st.columns(3)
-with p_col1:
-    display_member("PEMBINA I", "Dosen Pembina 1", "NIDN. XXXX")
-with p_col2:
-    display_member("PEMBINA II", "Dosen Pembina 2", "NIDN. XXXX")
-with p_col3:
-    display_member("PEMBINA III", "Dosen Pembina 3", "NIDN. XXXX")
+# TIER 3: PEMBINA
+st.markdown('<div class="tier-header">DEWAN PEMBINA DOSEN</div>', unsafe_allow_html=True)
+p1, p2, p3 = st.columns(3)
+with p1: display_member("PEMBINA I", "Dosen 1", "XXXX")
+with p2: display_member("PEMBINA II", "Dosen 2", "XXXX")
+with p3: display_member("PEMBINA III", "Dosen 3", "XXXX")
 
-# TIER 4: UNSUR PELAKSANA
+# TIER 4: PELAKSANA
 st.markdown('<div class="tier-header">UNSUR PELAKSANA</div>', unsafe_allow_html=True)
-t3_c1, t3_c2, t3_c3 = st.columns(3)
-with t3_c1:
-    display_member("DANKI", "Nama Danki", "NBP. XX.XXX.XX")
-with t3_c2:
-    display_member("WADANKI", "Nama Wadanki", "NBP. XX.XXX.XX")
-with t3_c3:
-    display_member("PELATIH", "Nama Pelatih", "NBP. XX.XXX.XX")
+t3_1, t3_2, t3_3 = st.columns(3)
+with t3_1: display_member("DANKI", "Nama Danki", "XX.XXX.XX")
+with t3_2: display_member("WADANKI", "Nama Wadanki", "XX.XXX.XX")
+with t3_3: display_member("PELATIH", "Nama Pelatih", "XX.XXX.XX")
 
-# TIER 5: ANGGOTA (Grid)
+# TIER 5: ANGGOTA
 st.markdown('<div class="tier-header">KESATUAN ANGGOTA</div>', unsafe_allow_html=True)
 m_cols = st.columns(4)
 for i in range(4):
-    with m_cols[i]:
-        display_member("ANGGOTA", f"Nama Anggota {i+1}", "XX.XXX.XX")
+    with m_cols[i]: display_member("ANGGOTA", f"Anggota {i+1}", "XX.XXX.XX")
 
-# 8. FOOTER
-st.write("<br><br>", unsafe_allow_html=True)
 st.divider()
-st.caption("Akses terverifikasi untuk: " + st.session_state.user_nama)
-st.caption("© 2026 Resimen Mahasiswa Mahawarman - KI LM | Developed by Muhammad Dani Setiawan")
+st.caption("© 2026 Menwa Mahawarman KI LM")

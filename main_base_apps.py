@@ -147,6 +147,7 @@ if not st.session_state.authenticated:
 
     st.write("---")
     st.caption("© 2026 Resimen Mahasiswa Mahawarman - KI LM")
+    st.caption("Digital Production by Muhammad Dani Setiawan from Cordevia Familia")
 
 # B. JIKA SUDAH LOGIN (DASHBOARD)
 else:

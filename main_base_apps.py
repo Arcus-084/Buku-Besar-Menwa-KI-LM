@@ -240,7 +240,7 @@ if not st.session_state.authenticated:
                     else:
                         st.error("Kredensial salah atau tidak terdaftar.")
                 except:
-                    st.error("Silahkan Konfirmasi 1 kali lagi")
+                    st.error("Terdapat gangguan koneksi, harap tekan tombol masuk 1 kali lagi")
 
 else:
     # --- TAMPILAN DASHBOARD (SETELAH LOGIN) ---
